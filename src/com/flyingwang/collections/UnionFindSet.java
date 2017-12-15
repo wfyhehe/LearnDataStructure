@@ -10,7 +10,7 @@ import java.util.*;
 public class UnionFindSet<E> implements Collection<E> {
     /**
      * UnionFindSet is for checking whether two elements are related (directly or indirectly).
-     * There are three kinds of methods: union, findRoot
+     * There are two kinds of methods: union, find
      */
     private ArrayList<TreeNode<E>> nodes = new ArrayList<>();
 
