@@ -8,6 +8,12 @@ import java.util.*;
  * Created by Administrator on 2017/12/14, good luck.
  */
 public class CompleteHeap<E extends Comparable<? super E>> implements Collection<E> {
+    /**
+     * This DataStructure is for sorting tasks by its priority.
+     * getMax in O(1), deleteMax in O(log(n)), add in O(log(n)).
+     * However bulkCreate cost O(n) instead of O(n*log(n)).
+     * Really useful in dispatching tasks with different priorities.
+     */
     private ArrayList<E> organizedElements;
 
     public CompleteHeap(Collection<E> elements) {
