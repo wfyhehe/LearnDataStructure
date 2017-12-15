@@ -1,7 +1,6 @@
 package com.flyingwang.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
@@ -86,6 +85,35 @@ public class Collections {
         return null;
     }
 
+    public static <E extends Comparable<? super E>> Map<String, E> findMinMax(List<E> elements) {
+        return Collections.findMinMax(elements, 0, elements.size());
+    }
 
+    private static <E extends Comparable<? super E>> Map<String, E> findMinMax(
+            List<E> elements, int lo, int hi) {
+        if (hi - lo == 1) {
+            Map<String, E> innerMap = new HashMap<>();
+            innerMap.put("min", elements.get(lo));
+            innerMap.put("max", elements.get(lo));
+            return innerMap;
+        } else if (hi - lo == 2) {
+            E first = elements.get(lo);
+            E second = elements.get(lo + 1);
+            Map<String, E> innerMap = new HashMap<>();
+            innerMap.put("min", first.compareTo(second) > 0 ? second : first);
+            innerMap.put("max", first.compareTo(second) > 0 ? first : second);
+            return innerMap;
+        }
+        int mi = (hi + lo) / 2;
+        Map<String, E> retMap = new HashMap<String, E>();
+        Map<String, E> innerMap1 = findMinMax(elements, lo, mi);
+        E min1 = innerMap1.get("min");
+        E max1 = innerMap1.get("max");
+        Map<String, E> innerMap2 = findMinMax(elements, mi, hi);
+        E min2 = innerMap2.get("min");
+        E max2 = innerMap2.get("max");
+        retMap.put("min", min1.compareTo(min2) < 0 ? min1 : min2);
+        retMap.put("max", max1.compareTo(max2) > 0 ? max1 : max2);
+        return retMap;
+    }
 }
-

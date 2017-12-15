@@ -2,10 +2,7 @@ package com.flyingwang.tests;
 
 import com.flyingwang.utils.Collections;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
@@ -45,6 +42,16 @@ public class test {
         Integer[] elements = {1, 3, 3};
         List<Integer> list = new ArrayList<>(Arrays.asList(elements));
         System.out.println(Collections.findMajority(list));
+    }
+
+    public static void testFindMinMax() {
+        List<Integer> integers = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 50; i++) {
+            integers.add(random.nextInt(89999) + 10000); // 10000 ~ 99999
+        }
+        Map<String, Integer> map = Collections.findMinMax(integers);
+        System.out.println(map);
     }
 
 
