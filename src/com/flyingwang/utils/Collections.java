@@ -1,15 +1,12 @@
 package com.flyingwang.utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
  */
 public class Collections {
-    public static List<List<Integer>> permutationList = new ArrayList<>();
-
     public static void main(String[] args) {
 
     }
@@ -58,5 +55,37 @@ public class Collections {
         permutation(elementsContainer, elements, 0);
         return elementsContainer;
     }
+
+    private static <E> E candidate(List<E> elements, int start) {
+        int count = 1;
+        E first = elements.get(start);
+        int i = start + 1;
+        for (; i < elements.size(); i++) {
+            if (elements.get(i).equals(first)) {
+                count++;
+            } else {
+                count--;
+                if (count <= 0) break;
+            }
+        }
+        if (i >= elements.size() - 1) {
+            return first;
+        }
+        return candidate(elements, i + 1);
+    }
+
+    public static <E> E findMajority(List<E> elements) {  // frequency > floor(n/2)
+        int count = 0;
+        E candidate = Collections.candidate(elements, 0);
+        for (E element : elements) {
+            if (element.equals(candidate)) count++;
+        }
+        if (count > elements.size() / 2) {
+            return candidate;
+        }
+        return null;
+    }
+
+
 }
 

@@ -13,7 +13,7 @@ import java.util.Random;
 public class test {
 
     public static void main(String[] args) {
-
+        testMajority();
     }
 
     public static void testRadixSort() {
@@ -39,6 +39,12 @@ public class test {
         }
         System.out.println(output.size());
         System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+    }
+
+    public static void testMajority() {
+        Integer[] elements = {1, 3, 3};
+        List<Integer> list = new ArrayList<>(Arrays.asList(elements));
+        System.out.println(Collections.findMajority(list));
     }
 
 
