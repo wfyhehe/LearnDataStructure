@@ -10,7 +10,7 @@ import java.util.*;
 public class test {
 
     public static void main(String[] args) {
-        testMajority();
+        testFindMinMax();
     }
 
     public static void testRadixSort() {

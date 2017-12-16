@@ -1,6 +1,9 @@
 package com.flyingwang.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
@@ -105,7 +108,7 @@ public class Collections {
             return innerMap;
         }
         int mi = (hi + lo) / 2;
-        Map<String, E> retMap = new HashMap<String, E>();
+        Map<String, E> retMap = new HashMap<>();
         Map<String, E> innerMap1 = findMinMax(elements, lo, mi);
         E min1 = innerMap1.get("min");
         E max1 = innerMap1.get("max");
@@ -115,5 +118,30 @@ public class Collections {
         retMap.put("min", min1.compareTo(min2) < 0 ? min1 : min2);
         retMap.put("max", max1.compareTo(max2) > 0 ? max1 : max2);
         return retMap;
+    }
+
+    private static <E extends Comparable<? super E>> int getMidIndexOfThree(
+            List<E> elements, int i1, int i2, int i3) {
+        E e1 = elements.get(i1);
+        E e2 = elements.get(i2);
+        E e3 = elements.get(i3);
+        if (e1.compareTo(e2) < 0 && e2.compareTo(e3) < 0
+                || e3.compareTo(e2) < 0 && e2.compareTo(e1) < 0) {
+            return i2;
+        } else if (e2.compareTo(e1) < 0 && e1.compareTo(e3) < 0
+                || e3.compareTo(e1) < 0 && e1.compareTo(e2) < 0) {
+            return i1;
+        } else if (e2.compareTo(e3) < 0 && e3.compareTo(e1) < 0
+                || e1.compareTo(e3) < 0 && e3.compareTo(e2) < 0) {
+            return i3;
+        } else { // should never happens
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private static <E extends Comparable<? super E>> void partition(
+            List<E> elements, int lo, int hi) {
+        int mi = (lo + hi) / 2;
+        int pivotIndex = getMidIndexOfThree(elements, lo, mi, hi);
     }
 }
