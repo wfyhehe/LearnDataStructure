@@ -105,7 +105,7 @@ public class Collections {
             return innerMap;
         }
         int mi = (hi + lo) / 2;
-        Map<String, E> retMap = new HashMap<String, E>();
+        Map<String, E> retMap = new HashMap<>();
         Map<String, E> innerMap1 = findMinMax(elements, lo, mi);
         E min1 = innerMap1.get("min");
         E max1 = innerMap1.get("max");
