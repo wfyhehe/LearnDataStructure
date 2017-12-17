@@ -10,7 +10,7 @@ import java.util.*;
 public class test {
 
     public static void main(String[] args) {
-        testFindMinMax();
+        testFindKthSmallest();
     }
 
     public static void testRadixSort() {
@@ -54,5 +54,10 @@ public class test {
         System.out.println(map);
     }
 
-
+    public static void testFindKthSmallest() {
+        Integer[] elements = {9, 7, 8, 1, 6, 4, 2, 3, 5, 0};
+        List<Integer> list = Arrays.asList(elements);
+        Integer target = Collections.findKthSmallest(list, 2);
+        System.out.println(target);
+    }
 }

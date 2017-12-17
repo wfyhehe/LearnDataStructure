@@ -10,7 +10,6 @@ import java.util.Map;
  */
 public class Collections {
     public static void main(String[] args) {
-
     }
 
     public static void radixSort(List<Integer> list, int length) {
@@ -125,23 +124,51 @@ public class Collections {
         E e1 = elements.get(i1);
         E e2 = elements.get(i2);
         E e3 = elements.get(i3);
-        if (e1.compareTo(e2) < 0 && e2.compareTo(e3) < 0
-                || e3.compareTo(e2) < 0 && e2.compareTo(e1) < 0) {
+        if (e1.compareTo(e2) <= 0 && e2.compareTo(e3) <= 0
+                || e3.compareTo(e2) <= 0 && e2.compareTo(e1) <= 0) {
             return i2;
-        } else if (e2.compareTo(e1) < 0 && e1.compareTo(e3) < 0
-                || e3.compareTo(e1) < 0 && e1.compareTo(e2) < 0) {
+        } else if (e2.compareTo(e1) <= 0 && e1.compareTo(e3) <= 0
+                || e3.compareTo(e1) <= 0 && e1.compareTo(e2) <= 0) {
             return i1;
-        } else if (e2.compareTo(e3) < 0 && e3.compareTo(e1) < 0
-                || e1.compareTo(e3) < 0 && e3.compareTo(e2) < 0) {
+        } else if (e2.compareTo(e3) <= 0 && e3.compareTo(e1) <= 0
+                || e1.compareTo(e3) <= 0 && e3.compareTo(e2) <= 0) {
             return i3;
         } else { // should never happens
             throw new IllegalArgumentException();
         }
     }
 
-    private static <E extends Comparable<? super E>> void partition(
+    private static <E extends Comparable<? super E>> int partition(
             List<E> elements, int lo, int hi) {
         int mi = (lo + hi) / 2;
-        int pivotIndex = getMidIndexOfThree(elements, lo, mi, hi);
+        int midIndex = getMidIndexOfThree(elements, lo, mi, hi - 1);
+        int indexToInsert = lo + 1;
+        java.util.Collections.swap(elements, lo, midIndex);
+        for (int i = lo; i < hi; i++) {
+            if (elements.get(i).compareTo(elements.get(lo)) < 0) {
+                java.util.Collections.swap(elements, i, indexToInsert);
+                indexToInsert++;
+            }
+        }
+        indexToInsert--;
+        java.util.Collections.swap(elements, lo, indexToInsert);
+        return indexToInsert;
+    }
+
+    public static <E extends Comparable<? super E>> E findKthSmallest(List<E> elements, int k) {
+        return findKthSmallest(elements, 0, elements.size(), k);
+    }
+
+    private static <E extends Comparable<? super E>> E findKthSmallest(
+            List<E> elements, int lo, int hi, int k) {
+        int pivotIndex = partition(elements, lo, hi);
+        // elements[pivotIndex] is pivotIndex+1_th smallest element
+        if (pivotIndex + 1 == k) {
+            return elements.get(pivotIndex);
+        } else if (pivotIndex + 1 < k) { // kth smallest element is after pivot
+            return findKthSmallest(elements, pivotIndex + 1, hi, k);
+        } else { // kth smallest element is before pivot
+            return findKthSmallest(elements, lo, pivotIndex, k);
+        }
     }
 }
