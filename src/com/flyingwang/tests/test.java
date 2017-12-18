@@ -16,7 +16,8 @@ public class test {
 //        testMajority();
 //        testFindMinMax();
 //        testFindKthSmallest();
-        testLCS();
+//        testLCS();
+        testMatrixChain();
     }
 
     public static void testRadixSort() {
@@ -72,5 +73,15 @@ public class test {
         String str2 = "zxzyyzxxyxxz";
         CharSequence commonStr = DynamicProgramming.longestCommonSubSequence(str1, str2);
         System.out.println(commonStr);
+    }
+
+    public static void testMatrixChain() {
+        List<Map.Entry<Integer, Integer>> matrixList = new ArrayList<>();
+        matrixList.add(new AbstractMap.SimpleEntry<>(5, 10));
+        matrixList.add(new AbstractMap.SimpleEntry<>(10, 4));
+        matrixList.add(new AbstractMap.SimpleEntry<>(4, 6));
+        matrixList.add(new AbstractMap.SimpleEntry<>(6, 10));
+        matrixList.add(new AbstractMap.SimpleEntry<>(10, 2));
+        System.out.println(DynamicProgramming.matrixChainMultiplication(matrixList));
     }
 }

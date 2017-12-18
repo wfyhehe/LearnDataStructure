@@ -1,11 +1,13 @@
 package com.flyingwang.utils;
 
+import java.util.*;
+
 /**
  * Created by Administrator on 2017/12/17, good luck.
  */
 public class DynamicProgramming {
     public static void main(String[] args) {
-
+        
     }
 
     public static CharSequence longestCommonSubSequence(CharSequence str1, CharSequence str2) {
@@ -54,5 +56,32 @@ public class DynamicProgramming {
             }
         }
         return ret;
+    }
+
+    public static int matrixChainMultiplication(
+            List<Map.Entry<Integer, Integer>> matrixPairs) {
+        int size = matrixPairs.size();
+        int[][] countTable = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            countTable[i][i] = 0;
+        }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j + i < size; j++) {
+                if (i == 0) {
+                    countTable[j][j] = 0;
+                    continue;
+                }
+                List<Integer> tempList = new ArrayList<>();
+                for (int k = j; k < j + i; k++) {
+                    tempList.add(countTable[j][k] +
+                            countTable[k + 1][j + i] +
+                            matrixPairs.get(j).getKey() *
+                                    matrixPairs.get(k).getValue() *
+                                    matrixPairs.get(j + i).getValue());
+                }
+                countTable[j][j + i] = java.util.Collections.min(tempList);
+            }
+        }
+        return countTable[0][size - 1];
     }
 }
