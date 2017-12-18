@@ -1,6 +1,7 @@
 package com.flyingwang.tests;
 
 import com.flyingwang.utils.Collections;
+import com.flyingwang.utils.DynamicProgramming;
 
 import java.util.*;
 
@@ -10,7 +11,12 @@ import java.util.*;
 public class test {
 
     public static void main(String[] args) {
-        testFindKthSmallest();
+//        testRadixSort();
+//        testPermutation();
+//        testMajority();
+//        testFindMinMax();
+//        testFindKthSmallest();
+        testLCS();
     }
 
     public static void testRadixSort() {
@@ -59,5 +65,12 @@ public class test {
         List<Integer> list = Arrays.asList(elements);
         Integer target = Collections.findKthSmallest(list, 2);
         System.out.println(target);
+    }
+
+    public static void testLCS() {
+        String str1 = "xyxxzxyzxy";
+        String str2 = "zxzyyzxxyxxz";
+        CharSequence commonStr = DynamicProgramming.longestCommonSubSequence(str1, str2);
+        System.out.println(commonStr);
     }
 }
