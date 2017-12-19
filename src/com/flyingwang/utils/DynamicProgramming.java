@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class DynamicProgramming {
     public static void main(String[] args) {
-        
+
     }
 
     public static CharSequence longestCommonSubSequence(CharSequence str1, CharSequence str2) {
@@ -83,5 +83,9 @@ public class DynamicProgramming {
             }
         }
         return countTable[0][size - 1];
+    }
+
+    public static void floyd() {
+
     }
 }
