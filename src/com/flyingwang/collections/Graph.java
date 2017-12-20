@@ -23,31 +23,35 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
     }
 
     public static void main(String[] args) {
-        Graph<Integer, Integer> g = new Graph<>(10);
-        for (int i = 0; i < g.vertexes.size(); i++) {
-            g.vertexes.set(i, new Vertex<>(i));
+    }
+
+    public void displayEdges() {
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                Edge<TE> edge = edges.get(i).get(j);
+                if (edge != null) {
+                    System.out.print(i + " -> " + j + " | ");
+                    System.out.println(edge);
+                }
+            }
         }
-        g.addOrUpdateDualEdge(0, 1);
-        g.addOrUpdateDualEdge(0, 2);
-        g.addOrUpdateDualEdge(0, 4);
-        g.addOrUpdateDualEdge(1, 7);
-        g.addOrUpdateDualEdge(2, 5);
-        g.addOrUpdateDualEdge(2, 6);
-        g.addOrUpdateDualEdge(3, 5);
-        g.addOrUpdateDualEdge(4, 9);
-        g.addOrUpdateDualEdge(4, 9);
-        g.addOrUpdateDualEdge(5, 9);
-        g.addOrUpdateDualEdge(7, 8);
-        g.addOrUpdateDualEdge(8, 9);
-        System.out.println("BFS:");
-        for (Iterator it = g.bfsIterator(); it.hasNext(); ) {
-            System.out.println(it.next());
-        }
-        g.reset();
-        System.out.println("DFS:");
-        for (Iterator it = g.dfsIterator(); it.hasNext(); ) {
-            System.out.println(it.next());
-        }
+        System.out.println("total " + edgeCount + " edges.");
+    }
+
+    public List<Vertex<TV>> getVertexes() {
+        return vertexes;
+    }
+
+    public List<List<Edge<TE>>> getEdges() {
+        return edges;
+    }
+
+    public int getEdgeCount() {
+        return edgeCount;
+    }
+
+    public int size() {
+        return vertexes.size();
     }
 
     private void rangeCheck(int i, int j) {
@@ -57,10 +61,18 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
     }
 
     public void reset() {
-        for (Vertex vertex :vertexes) {
+        for (Vertex vertex : vertexes) {
             vertex.status = Vertex.VertexStatus.UNDISCOVERED;
-            vertex.finishTime = 0;
-            vertex.discoverTime = 0;
+            vertex.finishTime = -1;
+            vertex.discoverTime = -1;
+            vertex.parent = -1;
+        }
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                if (edges.get(i).get(j) != null) {
+                    edges.get(i).get(j).status = Edge.EdgeStatus.UNDETERMINED;
+                }
+            }
         }
     }
 
@@ -191,18 +203,17 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         return new GraphBFSIterator(start);
     }
 
-
-    static final class Vertex<TV> {
+    public static final class Vertex<TV> {
         TV data;
         int inDegree = 0;
         int outDegree = 0;
-        int discoverTime;
-        int finishTime;
-        int parent;
+        int discoverTime = -1;
+        int finishTime = -1;
+        int parent = -1;
         int priority;
         VertexStatus status = VertexStatus.UNDISCOVERED;
 
-        Vertex(TV data) {
+        public Vertex(TV data) {
             this.data = data;
         }
 
@@ -227,7 +238,7 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         }
     }
 
-    static final class Edge<TE> {
+    public static final class Edge<TE> {
         TE data;
         int weight;
         EdgeStatus status = EdgeStatus.UNDETERMINED;
@@ -275,23 +286,40 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
 
         @Override
         public boolean hasNext() {
-            return !queue.isEmpty();
+            if (!queue.isEmpty()) {
+                return true;
+            }
+            for (int i = 0; i < size(); i++) {
+                if (vertexes.get(i).status == Vertex.VertexStatus.UNDISCOVERED) {
+                    queue.offer(i);
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override
         public Vertex<TV> next() {
             int i = queue.poll();
+            Vertex<TV> fromVertex = vertexes.get(i);
             for (int j = firstNeighbour(i); j > -1; j = nextNeighbour(i, j)) {
-                if (vertexes.get(j).status == Vertex.VertexStatus.UNDISCOVERED) {
+                Edge<TE> edge = edges.get(i).get(j);
+                Vertex<TV> toVertex = vertexes.get(j);
+                if (toVertex.status == Vertex.VertexStatus.UNDISCOVERED) {
                     queue.offer(j);
-                    vertexes.get(j).status = Vertex.VertexStatus.DISCOVERED;
-                    vertexes.get(j).discoverTime = this.clock;
+                    edge.status = Edge.EdgeStatus.TREE;
+                    toVertex.status = Vertex.VertexStatus.DISCOVERED;
+                    toVertex.discoverTime = this.clock;
+                    this.clock++;
+                    toVertex.parent = i;
+                } else {
+                    edge.status = Edge.EdgeStatus.CROSS;
                 }
             }
-            vertexes.get(i).status = Vertex.VertexStatus.VISITED;
-            vertexes.get(i).finishTime = this.clock;
+            fromVertex.status = Vertex.VertexStatus.VISITED;
+            fromVertex.finishTime = this.clock;
             this.clock++;
-            return vertexes.get(i);
+            return fromVertex;
         }
     }
 
@@ -301,36 +329,66 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
 
         GraphDFSIterator(int start) {
             rangeCheck(start, 0);
+            Vertex<TV> toVertex = vertexes.get(start);
             stack.push(start);
-            vertexes.get(start).discoverTime = this.clock;
+            toVertex.discoverTime = this.clock;
+            toVertex.status = Vertex.VertexStatus.DISCOVERED;
             this.clock++;
         }
 
         GraphDFSIterator() {
             stack.push(0);
-            vertexes.get(0).discoverTime = this.clock;
+            Vertex<TV> toVertex = vertexes.get(0);
+            toVertex.status = Vertex.VertexStatus.DISCOVERED;
+            toVertex.discoverTime = this.clock;
             this.clock++;
         }
 
         @Override
         public boolean hasNext() {
-            return !stack.isEmpty();
+            if (!stack.isEmpty()) {
+                return true;
+            }
+            for (int i = 0; i < size(); i++) {
+                if (vertexes.get(i).status == Vertex.VertexStatus.UNDISCOVERED) {
+                    stack.push(i);
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override
         public Vertex<TV> next() {
-            int i = stack.pop();
+            int i = stack.peek();
+            Vertex<TV> fromVertex = vertexes.get(i);
             for (int j = firstNeighbour(i); j > -1; j = nextNeighbour(i, j)) {
-                if (vertexes.get(j).status == Vertex.VertexStatus.UNDISCOVERED) {
+                Edge<TE> edge = edges.get(i).get(j);
+                Vertex<TV> toVertex = vertexes.get(j);
+                if (toVertex.status == Vertex.VertexStatus.UNDISCOVERED) {
+                    toVertex.discoverTime = this.clock;
+                    this.clock++;
+                    toVertex.status = Vertex.VertexStatus.DISCOVERED;
+                    edge.status = Edge.EdgeStatus.TREE;
+                    toVertex.parent = i;
                     stack.push(j);
-                    vertexes.get(j).status = Vertex.VertexStatus.DISCOVERED;
-                    vertexes.get(j).discoverTime = this.clock;
+                    return next();
+                } else if (toVertex.status == Vertex.VertexStatus.DISCOVERED) {
+                    edge.status = Edge.EdgeStatus.BACKWARD;
+                } else { // VISITED
+                    if (toVertex.discoverTime < fromVertex.discoverTime) {
+                        edge.status = Edge.EdgeStatus.FORWARD;
+                    } else if (edge.status == Edge.EdgeStatus.UNDETERMINED) {
+                        edge.status = Edge.EdgeStatus.CROSS;
+                    }
                 }
             }
-            vertexes.get(i).status = Vertex.VertexStatus.VISITED;
-            vertexes.get(i).finishTime = this.clock;
+            // if no undiscovered neighbour
+            stack.pop();
+            fromVertex.status = Vertex.VertexStatus.VISITED;
+            fromVertex.finishTime = this.clock;
             this.clock++;
-            return vertexes.get(i);
+            return fromVertex;
         }
     }
 }

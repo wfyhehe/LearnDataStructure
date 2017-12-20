@@ -1,5 +1,7 @@
 package com.flyingwang.utils;
 
+import com.flyingwang.collections.Graph;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -170,5 +172,21 @@ public class Collections {
         } else { // kth smallest element is before pivot
             return findKthSmallest(elements, lo, pivotIndex, k);
         }
+    }
+
+    public static <E> List<List<E>> floyd(Graph<E, E> graph) {
+        List<List<E>> ret = new ArrayList<>(graph.size());
+        for (int i = 0; i < graph.size(); i++) {
+            ret.add(new ArrayList<>(graph.size()));
+            for (int j = 0; j < graph.size(); j++) {
+                ret.get(i).add(null);
+            }
+        }
+        for (List<Graph.Edge<E>> edgeList: graph.getEdges()) {
+            for (Graph.Edge<E> edge : edgeList) {
+//                edge.
+            }
+        }
+        return null;
     }
 }
