@@ -1,5 +1,3 @@
-package com.flyingwang.tests;
-
 import com.flyingwang.collections.Graph;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
@@ -23,6 +21,7 @@ public class test {
         Collections.radixSort(copyIntegers, 5);
         System.out.println(integers);
         System.out.println(copyIntegers);
+        assert integers.equals(copyIntegers);
     }
 
     @Test
