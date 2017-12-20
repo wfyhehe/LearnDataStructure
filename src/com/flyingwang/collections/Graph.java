@@ -68,6 +68,8 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         rangeCheck(i, j);
         if (edges.get(i).get(j) == null) {
             edgeCount++;
+            vertexes.get(i).outDegree++;
+            vertexes.get(j).inDegree++;
         }
         edges.get(i).set(j, new Edge<>(edge, weight));
     }
@@ -122,16 +124,6 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         rangeCheck(i, j);
         Edge<TE> edge = edges.get(i).get(j);
         return edge != null;
-    }
-
-    public boolean insert(TE data, int weight, int i, int j) {
-        rangeCheck(i, j);
-        if (exists(i, j)) return false;
-        edges.get(i).set(j, new Edge<>(data, weight));
-        edgeCount++;
-        vertexes.get(i).outDegree++;
-        vertexes.get(j).inDegree++;
-        return true;
     }
 
     public boolean insert(TV data) {
