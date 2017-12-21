@@ -47,6 +47,11 @@ public class UnionFindSet<E> implements Collection<E> {
         return node.findRoot().element;
     }
 
+    public E find(E e) {
+        TreeNode<E> node = findNode(e);
+        return find(node);
+    }
+
     public void union(E e1, E e2) {
         TreeNode<E> node1 = this.findNode(e1);
         TreeNode<E> node2 = findNode(e2);

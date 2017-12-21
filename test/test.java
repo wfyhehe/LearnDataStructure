@@ -288,4 +288,29 @@ public class test {
         assert path.equals(new ArrayList<>(Arrays.asList(assertArray)));
     }
 
+    @Test
+    public void testKruskal() {
+        Graph<Integer, Integer> g = new Graph<>(6);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateDualEdge(0, 1, 5);
+        g.addOrUpdateDualEdge(0, 2, 8);
+        g.addOrUpdateDualEdge(0, 3, 7);
+        g.addOrUpdateDualEdge(0, 5, 3);
+        g.addOrUpdateDualEdge(1, 2, 4);
+        g.addOrUpdateDualEdge(2, 3, 5);
+        g.addOrUpdateDualEdge(2, 5, 9);
+        g.addOrUpdateDualEdge(3, 4, 5);
+        g.addOrUpdateDualEdge(4, 5, 1);
+        List<Graph.Edge<Integer>> edges = Collections.kruskal(g);
+        int pathLength = 0;
+        for (Graph.Edge<Integer> edge : edges) {
+            System.out.println(edge);
+            pathLength += edge.getWeight();
+        }
+        assert edges.size()==5;
+        assert pathLength==18;
+    }
+
 }

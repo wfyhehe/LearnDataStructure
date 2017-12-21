@@ -1,6 +1,7 @@
 package com.flyingwang.utils;
 
 import com.flyingwang.collections.Graph;
+import com.flyingwang.collections.UnionFindSet;
 
 import java.util.*;
 
@@ -246,5 +247,32 @@ public class Collections {
             }
         }
         return ret;
+    }
+
+    public static <E> List<Graph.Edge<E>> kruskal(Graph<E, E> graph) {
+        List<Graph.Edge<E>> allEdges = new LinkedList<>();
+        List<Graph.Edge<E>> selectedEdges = new ArrayList<>();
+        List<Integer> vertexNumbers = new ArrayList<>(graph.size());
+        for (int i = 0; i < graph.size(); i++) {
+            vertexNumbers.add(i);
+        }
+        for (List<Graph.Edge<E>> edgeList : graph.getEdges()) {
+            for (Graph.Edge<E> edge : edgeList) {
+                if (edge != null) {
+                    allEdges.add(edge);
+                }
+            }
+        }
+        allEdges.sort(Comparator.comparingInt(Graph.Edge::getWeight));
+        UnionFindSet<Integer> ufs = new UnionFindSet<>(vertexNumbers);
+        for (Graph.Edge<E> edge : allEdges) {
+            int from = edge.getFrom();
+            int to = edge.getTo();
+            if (!ufs.find(from).equals(ufs.find(to))) {
+                ufs.union(from, to);
+                selectedEdges.add(edge);
+            }
+        }
+        return selectedEdges;
     }
 }
