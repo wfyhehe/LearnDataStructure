@@ -1,5 +1,7 @@
+import com.flyingwang.collections.CompleteHeap;
 import com.flyingwang.collections.Graph;
 import com.flyingwang.collections.ItemInPack;
+import com.flyingwang.collections.UnionFindSet;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
 import org.junit.Test;
@@ -10,6 +12,57 @@ import java.util.*;
  * Created by Administrator on 2017/12/15, good luck.
  */
 public class test {
+    @Test
+    public void testCompleteHeap() {
+        //        List<Integer> randomArray = new ArrayList<>();
+        //        Random random = new Random();
+        //        for (int i = 0; i < 12; i++) {
+        //            randomArray.add(random.nextInt(50));
+        //        }
+        Integer[] randomArray = new Integer[]{
+                14, 34, 6, 30, 4, 28, 45, 26, 41, 32, 40, 43
+        };
+        CompleteHeap<Integer> ch = new CompleteHeap<>(Arrays.asList(randomArray));
+        System.out.println(Arrays.asList(randomArray));
+        System.out.println(ch);
+        ch.add(44);
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch);
+        ch.deleteMax();
+        System.out.println(ch.getMax());
+    }
+
+    @Test
+    public void testUnionFindSet() {
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Random random = new Random();
+            integers.add(random.nextInt(1000));
+        }
+        UnionFindSet<Integer> ufs = new UnionFindSet<>(integers);
+        ufs.union(integers.get(1), integers.get(2));
+        ufs.union(integers.get(2), integers.get(3));
+        ufs.union(integers.get(3), integers.get(4));
+        ufs.union(integers.get(4), integers.get(5));
+        ufs.union(integers.get(4), integers.get(6));
+        ufs.union(integers.get(11), integers.get(15));
+        ufs.union(integers.get(11), integers.get(17));
+        ufs.union(integers.get(17), integers.get(19));
+        ufs.union(integers.get(15), integers.get(8));
+        ufs.union(integers.get(14), integers.get(18));
+        System.out.println(ufs);
+    }
 
     @Test
     public void testRadixSort() {

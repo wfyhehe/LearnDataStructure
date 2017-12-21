@@ -34,26 +34,6 @@ public class UnionFindSet<E> implements Collection<E> {
         }
     }
 
-    public static void main(String[] args) {
-        ArrayList<Integer> integers = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Random random = new Random();
-            integers.add(random.nextInt(1000));
-        }
-        UnionFindSet<Integer> ufs = new UnionFindSet<>(integers);
-        ufs.union(integers.get(1), integers.get(2));
-        ufs.union(integers.get(2), integers.get(3));
-        ufs.union(integers.get(3), integers.get(4));
-        ufs.union(integers.get(4), integers.get(5));
-        ufs.union(integers.get(4), integers.get(6));
-        ufs.union(integers.get(11), integers.get(15));
-        ufs.union(integers.get(11), integers.get(17));
-        ufs.union(integers.get(17), integers.get(19));
-        ufs.union(integers.get(15), integers.get(8));
-        ufs.union(integers.get(14), integers.get(18));
-        System.out.println(ufs);
-    }
-
     public TreeNode<E> findNode(E e) {
         for (TreeNode<E> node : nodes) {
             if (node.element.equals(e)) {

@@ -11,13 +11,8 @@ import java.util.Map;
  * Created by Administrator on 2017/12/15, good luck.
  */
 public class Collections {
-    public static void main(String[] args) {
-    }
-
     public static void radixSort(List<Integer> list, int length) {
         ArrayList<Integer>[] buckets = new ArrayList[10];
-
-
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < 10; j++) {
                 buckets[j] = new ArrayList<>();
@@ -36,7 +31,6 @@ public class Collections {
             }
         }
     }
-
 
     private static <E> void permutation(
             List<List<E>> elementsContainer, List<E> elements, int startIndex) {

@@ -22,9 +22,6 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         }
     }
 
-    public static void main(String[] args) {
-    }
-
     public void displayEdges() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {

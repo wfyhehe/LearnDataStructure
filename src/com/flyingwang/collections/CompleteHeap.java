@@ -18,43 +18,13 @@ public class CompleteHeap<E extends Comparable<? super E>> implements Collection
 
     public CompleteHeap(Collection<E> elements) {
         this.organizedElements = new ArrayList<>(elements);
-        for (int i = this.getLastNonleafIndex(); i >= 0; i--) {
+        for (int i = this.getLastNonLeafIndex(); i >= 0; i--) {
             percolateDown(i);
         }
     }
 
     public CompleteHeap() {
         organizedElements = new ArrayList<>();
-    }
-
-    public static void main(String[] args) {
-//        List<Integer> randomArray = new ArrayList<>();
-//        Random random = new Random();
-//        for (int i = 0; i < 12; i++) {
-//            randomArray.add(random.nextInt(50));
-//        }
-        Integer[] randomArray = new Integer[]{
-                14, 34, 6, 30, 4, 28, 45, 26, 41, 32, 40, 43
-        };
-        CompleteHeap<Integer> ch = new CompleteHeap<>(Arrays.asList(randomArray));
-        System.out.println(Arrays.asList(randomArray));
-        System.out.println(ch);
-        ch.add(44);
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch);
-        ch.deleteMax();
-        System.out.println(ch.getMax());
     }
 
     private static int getParentIndex(int index) {
@@ -69,7 +39,7 @@ public class CompleteHeap<E extends Comparable<? super E>> implements Collection
         return (index + 1) * 2;
     }
 
-    private int getLastNonleafIndex() {
+    private int getLastNonLeafIndex() {
         if (this.size() <= 1) {
             throw new NoSuchElementException();
         }
