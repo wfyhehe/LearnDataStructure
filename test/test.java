@@ -183,14 +183,12 @@ public class test {
         items.add(new ItemInPack("c", 6, 5));
         items.add(new ItemInPack("d", 5, 4));
         items.add(new ItemInPack("e", 4, 6));
-        List<List<Integer>> valueTable = DynamicProgramming.zeroOnePack(items, 10);
-        for (int i = 0; i < valueTable.size(); i++) {
-            for (int j = 0; j < valueTable.get(0).size(); j++) {
-                System.out.printf("%3s", valueTable.get(i).get(j));
-            }
-            System.out.println();
+        List<Integer> valueList = DynamicProgramming.zeroOnePack(items, 10);
+        for (int i = 0; i < valueList.size(); i++) {
+            System.out.printf("%3s", valueList.get(i));
         }
-        assert valueTable.get(valueTable.size() - 1).get(valueTable.get(0).size() - 1) == 15;
+        System.out.println();
+        assert valueList.get(valueList.size() - 1) == 15;
     }
 
     @Test
@@ -201,13 +199,11 @@ public class test {
         items.add(new ItemInPack("e", 4, 6));
         items.add(new ItemInPack("b", 2, 3));
         items.add(new ItemInPack("a", 2, 6));
-        List<List<Integer>> valueTable = DynamicProgramming.completePack(items, 10);
-        for (int i = 0; i < valueTable.size(); i++) {
-            for (int j = 0; j < valueTable.get(0).size(); j++) {
-                System.out.printf("%3s", valueTable.get(i).get(j));
-            }
-            System.out.println();
+        List<Integer> valueList = DynamicProgramming.completePack(items, 10);
+        for (int i = 0; i < valueList.size(); i++) {
+            System.out.printf("%3s", valueList.get(i));
         }
-        assert valueTable.get(valueTable.size() - 1).get(valueTable.get(0).size() - 1) == 30;
+        System.out.println();
+        assert valueList.get(valueList.size() - 1) == 30;
     }
 }

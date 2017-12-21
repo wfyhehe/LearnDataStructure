@@ -2,9 +2,7 @@ package com.flyingwang.utils;
 
 import com.flyingwang.collections.ItemInPack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/12/17, good luck.
@@ -89,75 +87,94 @@ public class DynamicProgramming {
         return countTable[0][size - 1];
     }
 
-    public static List<List<Integer>> zeroOnePack(List<ItemInPack> items, int packSize) {
-        int itemsCount = items.size();
-        List<List<Integer>> valueTable = new ArrayList<>(itemsCount);
-        for (int i = 0; i < itemsCount; i++) {
-            valueTable.add(new ArrayList<>(packSize));
-            for (int currentSize = 0; currentSize <= packSize; currentSize++) {
+    public static List<Integer> zeroOnePack(List<ItemInPack> items, int packSize) {
+        List<Integer> valueList = new ArrayList<>(items.size());
+        List<Set<ItemInPack>> selectedItems = new ArrayList<>();
+        for (int i = 0; i <= packSize; i++) {
+            valueList.add(0);
+            selectedItems.add(new HashSet<>());
+        }
+        for (int i = 0; i < items.size(); i++) {
+            for (int currentSize = packSize; currentSize >= 0; currentSize--) {
                 ItemInPack thisItem = items.get(i);
                 ItemInPack lastItem = i > 0 ? items.get(i - 1) : null;
                 if (lastItem == null) {
                     if (currentSize >= thisItem.getCost()) {
-                        valueTable.get(i).add(thisItem.getValue());
-                    } else {
-                        valueTable.get(i).add(0);
+                        valueList.set(currentSize, thisItem.getValue());
+                        selectedItems.get(currentSize).add(thisItem);
                     }
                     continue;
                 }
-                int max;
-                if (currentSize < thisItem.getCost()) {
-                    max = valueTable.get(i - 1).get(currentSize);
-                } else {
-                    int valueWithoutThis = valueTable.get(i - 1).get(currentSize); // no need items[i]
-                    int valueWithThis = valueTable.get(i - 1).get(currentSize - thisItem.getCost())
+                if (currentSize >= thisItem.getCost()) {
+                    int valueWithoutThis = valueList.get(currentSize); // no need items[i]
+                    int valueWithThis = valueList.get(currentSize - thisItem.getCost())
                             + thisItem.getValue();
-                    if (valueWithoutThis > valueWithThis) {
-                        max = valueWithoutThis;
-                    } else {
-                        max = valueWithThis;
+                    if (valueWithoutThis < valueWithThis) {
+                        valueList.set(currentSize, valueWithThis);
+                        Set<ItemInPack> setWithoutThis =
+                                selectedItems.get(currentSize - thisItem.getCost());
+                        Set<ItemInPack> newSet = new HashSet<>(setWithoutThis);
+                        newSet.add(thisItem);
+                        selectedItems.set(currentSize, newSet);
                     }
                 }
-                valueTable.get(i).add(max);
             }
         }
-        return valueTable;
+        for (Set<ItemInPack> selectedItem : selectedItems) {
+            System.out.println(selectedItem);
+        }
+        return valueList;
     }
 
-    public static List<List<Integer>> completePack(List<ItemInPack> items, int packSize) {
-        int itemsCount = items.size();
-        List<List<Integer>> valueTable = new ArrayList<>(itemsCount);
-        for (int i = 0; i < itemsCount; i++) {
-            valueTable.add(new ArrayList<>(packSize));
+    public static List<Integer> completePack(List<ItemInPack> items, int packSize) {
+        List<Integer> valueList = new ArrayList<>(items.size());
+        List<Map<ItemInPack, Integer>> selectedItems = new ArrayList<>();
+        for (int i = 0; i <= packSize; i++) {
+            valueList.add(0);
+            selectedItems.add(new HashMap<>());
+        }
+        for (int i = 0; i < items.size(); i++) {
             for (int currentSize = 0; currentSize <= packSize; currentSize++) {
                 ItemInPack thisItem = items.get(i);
                 ItemInPack lastItem = i > 0 ? items.get(i - 1) : null;
                 if (lastItem == null) {
                     if (currentSize >= thisItem.getCost()) {
-                        valueTable.get(i).add(
-                                valueTable.get(i).get(currentSize - thisItem.getCost()) + thisItem.getValue()
+                        valueList.set(currentSize,
+                                valueList.get(currentSize - thisItem.getCost()) + thisItem.getValue()
                         );
+                        Integer thisCount = selectedItems.get(currentSize).get(thisItem);
+                        if (thisCount == null) {
+                            thisCount = 0;
+                        }
+                        selectedItems.get(currentSize).put(thisItem, thisCount + 1);
                     } else {
-                        valueTable.get(i).add(0);
+                        valueList.set(currentSize, 0);
                     }
                     continue;
                 }
-                int max;
-                if (currentSize < thisItem.getCost()) {
-                    max = valueTable.get(i - 1).get(currentSize);
-                } else {
-                    int valueWithoutThis = valueTable.get(i - 1).get(currentSize); // no need items[i]
-                    int valueWithThis = valueTable.get(i).get(currentSize - thisItem.getCost())
+                if (currentSize >= thisItem.getCost()) {
+                    int valueWithoutThis = valueList.get(currentSize); // no need items[i]
+                    int valueWithThis = valueList.get(currentSize - thisItem.getCost())
                             + thisItem.getValue();
-                    if (valueWithoutThis > valueWithThis) {
-                        max = valueWithoutThis;
-                    } else {
-                        max = valueWithThis;
+                    if (valueWithoutThis < valueWithThis) {
+                        valueList.set(currentSize, valueWithThis);
+                        Map<ItemInPack, Integer> mapWithoutThis =
+                                selectedItems.get(currentSize - thisItem.getCost());
+                        Integer thisCount = mapWithoutThis.get(thisItem);
+                        if (thisCount == null) {
+                            thisCount = 0;
+                        }
+                        Map<ItemInPack, Integer> newMap = new HashMap<>();
+                        mapWithoutThis.putAll(newMap);
+                        selectedItems.set(currentSize, newMap);
+                        selectedItems.get(currentSize).put(thisItem, thisCount + 1);
                     }
                 }
-                valueTable.get(i).add(max);
             }
         }
-        return valueTable;
+        for (Map<ItemInPack, Integer> selectedItem : selectedItems) {
+            System.out.println(selectedItem);
+        }
+        return valueList;
     }
 }
