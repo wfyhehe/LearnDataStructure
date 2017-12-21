@@ -43,6 +43,18 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         return edges;
     }
 
+    public List<Edge<TE>> getFlattenedEdges() {
+        List<Edge<TE>> ret = new ArrayList<>();
+        for (List<Edge<TE>> edgeList : edges) {
+            for (Edge<TE> edge : edgeList) {
+                if (edge != null) {
+                    ret.add(edge);
+                }
+            }
+        }
+        return ret;
+    }
+
     public Edge<TE> getEdge(int i, int j) {
         rangeCheck(i, j);
         return edges.get(i).get(j);

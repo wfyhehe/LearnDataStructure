@@ -313,4 +313,29 @@ public class test {
         assert pathLength==18;
     }
 
+    @Test
+    public void testPrim() {
+        Graph<Integer, Integer> g = new Graph<>(6);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateDualEdge(0, 1, 1);
+        g.addOrUpdateDualEdge(0, 2, 2);
+        g.addOrUpdateDualEdge(1, 2, 6);
+        g.addOrUpdateDualEdge(1, 3, 11);
+        g.addOrUpdateDualEdge(2, 3, 9);
+        g.addOrUpdateDualEdge(2, 4, 13);
+        g.addOrUpdateDualEdge(3, 4, 7);
+        g.addOrUpdateDualEdge(3, 5, 3);
+        g.addOrUpdateDualEdge(4, 5, 4);
+        List<Graph.Edge<Integer>> edges = Collections.prim(g);
+        int pathLength = 0;
+        for (Graph.Edge<Integer> edge : edges) {
+            System.out.println(edge);
+            pathLength += edge.getWeight();
+        }
+        assert edges.size()==5;
+        assert pathLength==19;
+    }
+
 }

@@ -250,18 +250,11 @@ public class Collections {
     }
 
     public static <E> List<Graph.Edge<E>> kruskal(Graph<E, E> graph) {
-        List<Graph.Edge<E>> allEdges = new LinkedList<>();
+        List<Graph.Edge<E>> allEdges = graph.getFlattenedEdges();
         List<Graph.Edge<E>> selectedEdges = new ArrayList<>();
         List<Integer> vertexNumbers = new ArrayList<>(graph.size());
         for (int i = 0; i < graph.size(); i++) {
             vertexNumbers.add(i);
-        }
-        for (List<Graph.Edge<E>> edgeList : graph.getEdges()) {
-            for (Graph.Edge<E> edge : edgeList) {
-                if (edge != null) {
-                    allEdges.add(edge);
-                }
-            }
         }
         allEdges.sort(Comparator.comparingInt(Graph.Edge::getWeight));
         UnionFindSet<Integer> ufs = new UnionFindSet<>(vertexNumbers);
@@ -271,6 +264,39 @@ public class Collections {
             if (!ufs.find(from).equals(ufs.find(to))) {
                 ufs.union(from, to);
                 selectedEdges.add(edge);
+            }
+        }
+        return selectedEdges;
+    }
+
+    public static <E> List<Graph.Edge<E>> prim(Graph<E, E> graph) {
+        Set<Integer> group = new HashSet<>();
+        group.add(0);
+        List<Graph.Edge<E>> selectedEdges = new ArrayList<>(graph.size());
+        List<Graph.Edge<E>> allEdges = graph.getFlattenedEdges();
+        while (group.size() < graph.size()) {
+            Integer minDistance = null;
+            Graph.Edge<E> temp = null;
+            Integer indexOfEdgeToBeRemoved = null;
+            for (int i = 0; i < allEdges.size(); i++) {
+                Graph.Edge<E> edge = allEdges.get(i);
+                Integer from = edge.getFrom();
+                Integer to = edge.getTo();
+                if (group.contains(from) && !group.contains(to)) {
+                    if (minDistance == null || edge.getWeight() < minDistance) {
+                        minDistance = edge.getWeight();
+                        temp = edge;
+                        indexOfEdgeToBeRemoved = i;
+                    }
+                }
+            }
+            if(indexOfEdgeToBeRemoved!=null) {
+                allEdges.remove(indexOfEdgeToBeRemoved.intValue());
+            }
+            if(temp!=null) {
+                selectedEdges.add(temp);
+                group.add(temp.getFrom());
+                group.add(temp.getTo());
             }
         }
         return selectedEdges;
