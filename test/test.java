@@ -1,4 +1,5 @@
 import com.flyingwang.collections.Graph;
+import com.flyingwang.collections.ItemInPack;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
 import org.junit.Test;
@@ -163,7 +164,7 @@ public class test {
         List<List<Integer>> path = Collections.floyd(g);
         for (int i = 0; i < path.size(); i++) {
             for (int j = 0; j < path.get(0).size(); j++) {
-                if(path.get(i).get(j)!=null) {
+                if (path.get(i).get(j) != null) {
                     System.out.print(path.get(i).get(j));
                 } else {
                     System.out.print("∞");
@@ -172,5 +173,41 @@ public class test {
             }
             System.out.println();
         }
+    }
+
+    @Test
+    public void testZeroOnePack() {
+        List<ItemInPack> items = new ArrayList<>();
+        items.add(new ItemInPack("a", 2, 6));
+        items.add(new ItemInPack("b", 2, 3));
+        items.add(new ItemInPack("c", 6, 5));
+        items.add(new ItemInPack("d", 5, 4));
+        items.add(new ItemInPack("e", 4, 6));
+        List<List<Integer>> valueTable = DynamicProgramming.zeroOnePack(items, 10);
+        for (int i = 0; i < valueTable.size(); i++) {
+            for (int j = 0; j < valueTable.get(0).size(); j++) {
+                System.out.printf("%3s", valueTable.get(i).get(j));
+            }
+            System.out.println();
+        }
+        assert valueTable.get(valueTable.size() - 1).get(valueTable.get(0).size() - 1) == 15;
+    }
+
+    @Test
+    public void testCompletePack() {
+        List<ItemInPack> items = new ArrayList<>();
+        items.add(new ItemInPack("c", 6, 5));
+        items.add(new ItemInPack("d", 5, 4));
+        items.add(new ItemInPack("e", 4, 6));
+        items.add(new ItemInPack("b", 2, 3));
+        items.add(new ItemInPack("a", 2, 6));
+        List<List<Integer>> valueTable = DynamicProgramming.completePack(items, 10);
+        for (int i = 0; i < valueTable.size(); i++) {
+            for (int j = 0; j < valueTable.get(0).size(); j++) {
+                System.out.printf("%3s", valueTable.get(i).get(j));
+            }
+            System.out.println();
+        }
+        assert valueTable.get(valueTable.size() - 1).get(valueTable.get(0).size() - 1) == 30;
     }
 }

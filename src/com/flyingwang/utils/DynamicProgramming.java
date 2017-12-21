@@ -1,6 +1,10 @@
 package com.flyingwang.utils;
 
-import java.util.*;
+import com.flyingwang.collections.ItemInPack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/12/17, good luck.
@@ -85,7 +89,75 @@ public class DynamicProgramming {
         return countTable[0][size - 1];
     }
 
-    public static void floyd() {
+    public static List<List<Integer>> zeroOnePack(List<ItemInPack> items, int packSize) {
+        int itemsCount = items.size();
+        List<List<Integer>> valueTable = new ArrayList<>(itemsCount);
+        for (int i = 0; i < itemsCount; i++) {
+            valueTable.add(new ArrayList<>(packSize));
+            for (int currentSize = 0; currentSize <= packSize; currentSize++) {
+                ItemInPack thisItem = items.get(i);
+                ItemInPack lastItem = i > 0 ? items.get(i - 1) : null;
+                if (lastItem == null) {
+                    if (currentSize >= thisItem.getCost()) {
+                        valueTable.get(i).add(thisItem.getValue());
+                    } else {
+                        valueTable.get(i).add(0);
+                    }
+                    continue;
+                }
+                int max;
+                if (currentSize < thisItem.getCost()) {
+                    max = valueTable.get(i - 1).get(currentSize);
+                } else {
+                    int valueWithoutThis = valueTable.get(i - 1).get(currentSize); // no need items[i]
+                    int valueWithThis = valueTable.get(i - 1).get(currentSize - thisItem.getCost())
+                            + thisItem.getValue();
+                    if (valueWithoutThis > valueWithThis) {
+                        max = valueWithoutThis;
+                    } else {
+                        max = valueWithThis;
+                    }
+                }
+                valueTable.get(i).add(max);
+            }
+        }
+        return valueTable;
+    }
 
+    public static List<List<Integer>> completePack(List<ItemInPack> items, int packSize) {
+        int itemsCount = items.size();
+        List<List<Integer>> valueTable = new ArrayList<>(itemsCount);
+        for (int i = 0; i < itemsCount; i++) {
+            valueTable.add(new ArrayList<>(packSize));
+            for (int currentSize = 0; currentSize <= packSize; currentSize++) {
+                ItemInPack thisItem = items.get(i);
+                ItemInPack lastItem = i > 0 ? items.get(i - 1) : null;
+                if (lastItem == null) {
+                    if (currentSize >= thisItem.getCost()) {
+                        valueTable.get(i).add(
+                                valueTable.get(i).get(currentSize - thisItem.getCost()) + thisItem.getValue()
+                        );
+                    } else {
+                        valueTable.get(i).add(0);
+                    }
+                    continue;
+                }
+                int max;
+                if (currentSize < thisItem.getCost()) {
+                    max = valueTable.get(i - 1).get(currentSize);
+                } else {
+                    int valueWithoutThis = valueTable.get(i - 1).get(currentSize); // no need items[i]
+                    int valueWithThis = valueTable.get(i).get(currentSize - thisItem.getCost())
+                            + thisItem.getValue();
+                    if (valueWithoutThis > valueWithThis) {
+                        max = valueWithoutThis;
+                    } else {
+                        max = valueWithThis;
+                    }
+                }
+                valueTable.get(i).add(max);
+            }
+        }
+        return valueTable;
     }
 }
