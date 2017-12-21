@@ -46,6 +46,11 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         return edges;
     }
 
+    public Edge<TE> getEdge(int i, int j) {
+        rangeCheck(i, j);
+        return edges.get(i).get(j);
+    }
+
     public int getEdgeCount() {
         return edgeCount;
     }
@@ -246,6 +251,18 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         Edge(TE data, int weight) {
             this.data = data;
             this.weight = weight;
+        }
+
+        public TE getData() {
+            return data;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public EdgeStatus getStatus() {
+            return status;
         }
 
         @Override

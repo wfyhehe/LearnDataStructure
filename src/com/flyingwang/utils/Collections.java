@@ -174,19 +174,36 @@ public class Collections {
         }
     }
 
-    public static <E> List<List<E>> floyd(Graph<E, E> graph) {
-        List<List<E>> ret = new ArrayList<>(graph.size());
+    public static <E> List<List<Integer>> floyd(Graph<E, E> graph) {
+        List<List<Integer>> ret = new ArrayList<>(graph.size());
         for (int i = 0; i < graph.size(); i++) {
             ret.add(new ArrayList<>(graph.size()));
             for (int j = 0; j < graph.size(); j++) {
-                ret.get(i).add(null);
+                Graph.Edge<E> edge = graph.getEdge(i, j);
+                if (edge != null) {
+                    ret.get(i).add(graph.getEdge(i, j).getWeight());
+                } else {
+                    ret.get(i).add(null);
+                }
             }
         }
-        for (List<Graph.Edge<E>> edgeList: graph.getEdges()) {
-            for (Graph.Edge<E> edge : edgeList) {
-//                edge.
+        for (int k = 0; k < graph.size(); k++) {
+            for (int i = 0; i < graph.size(); i++) {
+                for (int j = 0; j < graph.size(); j++) {
+                    Integer originEdge = ret.get(i).get(j);
+                    Integer newEdgePart1 = ret.get(i).get(k);
+                    Integer newEdgePart2 = ret.get(k).get(j);
+                    if (newEdgePart1 == null || newEdgePart2 == null) {
+                        continue;
+                    }
+                    if (originEdge == null) {
+                        ret.get(i).set(j, newEdgePart1 + newEdgePart2);
+                    } else {
+                        ret.get(i).set(j, Math.min(originEdge, newEdgePart1 + newEdgePart2));
+                    }
+                }
             }
         }
-        return null;
+        return ret;
     }
 }

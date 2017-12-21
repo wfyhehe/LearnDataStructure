@@ -1,8 +1,9 @@
 import com.flyingwang.collections.Graph;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
-import java.util.*;
 import org.junit.Test;
+
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
@@ -138,5 +139,38 @@ public class test {
             System.out.println(it.next());
         }
         g.displayEdges();
+    }
+
+
+    @Test
+    public void testFloyd() {
+        Graph<Integer, Integer> g = new Graph<>(4);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateEdge(0, 0, 0);
+        g.addOrUpdateEdge(1, 1, 0);
+        g.addOrUpdateEdge(2, 2, 0);
+        g.addOrUpdateEdge(3, 3, 0);
+        g.addOrUpdateEdge(0, 1, 2);
+        g.addOrUpdateEdge(0, 2, 6);
+        g.addOrUpdateEdge(0, 3, 4);
+        g.addOrUpdateEdge(1, 2, 3);
+        g.addOrUpdateEdge(2, 0, 7);
+        g.addOrUpdateEdge(2, 3, 1);
+        g.addOrUpdateEdge(3, 0, 5);
+        g.addOrUpdateEdge(3, 2, 12);
+        List<List<Integer>> path = Collections.floyd(g);
+        for (int i = 0; i < path.size(); i++) {
+            for (int j = 0; j < path.get(0).size(); j++) {
+                if(path.get(i).get(j)!=null) {
+                    System.out.print(path.get(i).get(j));
+                } else {
+                    System.out.print("∞");
+                }
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 }
