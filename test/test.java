@@ -259,4 +259,33 @@ public class test {
         System.out.println();
         assert valueList.get(valueList.size() - 1) == 30;
     }
+
+    @Test
+    public void testDijkstra() {
+        Graph<Integer, Integer> g = new Graph<>(6);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateDualEdge(0, 1, 7);
+        g.addOrUpdateDualEdge(0, 2, 9);
+        g.addOrUpdateDualEdge(0, 5, 14);
+        g.addOrUpdateDualEdge(1, 2, 10);
+        g.addOrUpdateDualEdge(1, 3, 15);
+        g.addOrUpdateDualEdge(2, 3, 11);
+        g.addOrUpdateDualEdge(2, 5, 2);
+        g.addOrUpdateDualEdge(3, 4, 6);
+        g.addOrUpdateDualEdge(4, 5, 9);
+        List<Integer> path = Collections.dijkstra(g, 0);
+        for (int i = 0; i < path.size(); i++) {
+            if (path.get(i) != null) {
+                System.out.print(path.get(i));
+            } else {
+                System.out.print("∞");
+            }
+            System.out.println();
+        }
+        Integer[] assertArray = new Integer[]{0, 7, 9, 20, 20, 11};
+        assert path.equals(new ArrayList<>(Arrays.asList(assertArray)));
+    }
+
 }

@@ -2,10 +2,7 @@ package com.flyingwang.utils;
 
 import com.flyingwang.collections.Graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/12/15, good luck.
@@ -38,7 +35,8 @@ public class Collections {
             elementsContainer.add(new ArrayList<>(elements));
         }
 
-        for (int i = startIndex; i < elements.size(); i++) { // elements[i] makes the first position
+        for (int i = startIndex; i < elements.size(); i++) { // elements[i] magkes the first
+            // position
             // if startIndex=0, this traverse all conditions
             // case: elements[i] is first, swap first
             java.util.Collections.swap(elements, startIndex, i);
@@ -194,6 +192,55 @@ public class Collections {
                         ret.get(i).set(j, newEdgePart1 + newEdgePart2);
                     } else {
                         ret.get(i).set(j, Math.min(originEdge, newEdgePart1 + newEdgePart2));
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
+    public static <E> List<Integer> dijkstra(Graph<E, E> graph, int source) {
+        Integer current = source;
+        Set<Integer> group = new HashSet<>();
+        Set<Integer> visitedGroup = new HashSet<>();
+        List<Integer> ret = new ArrayList<>(graph.size());
+        for (int i = 0; i < graph.size(); i++) {
+            if (i == source) {
+                group.add(i);
+                ret.add(0);  // self to self is 0
+                continue;
+            }
+            Graph.Edge<E> edge = graph.getEdge(source, i);
+            if (edge != null) {
+                ret.add(edge.getWeight());
+            } else {
+                ret.add(null);
+            }
+        }
+        while (current != null) {
+            group.remove(current);
+            visitedGroup.add(current);
+            for (int i = 0; i < graph.size(); i++) {
+                if (graph.getEdge(current, i) != null && !visitedGroup.contains(i)) {
+                    group.add(i);
+                }
+            }
+            for (int i = 0; i < graph.size(); i++) {
+                if (graph.getEdge(current, i) != null) {
+                    if (ret.get(i) == null ||
+                            ret.get(i) > ret.get(current) + graph.getEdge(current, i).getWeight()) {
+                        ret.set(i, ret.get(current) + graph.getEdge(current, i).getWeight());
+                    }
+                }
+            }
+            Integer minDistance = null;
+            current = null;
+            for (int i = 0; i < ret.size(); i++) {
+                Integer distance = ret.get(i);
+                if (distance != null && distance != 0 && group.contains(i)) {
+                    if (minDistance == null || distance < minDistance) {
+                        minDistance = distance;
+                        current = i;
                     }
                 }
             }

@@ -85,7 +85,7 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
             vertexes.get(i).outDegree++;
             vertexes.get(j).inDegree++;
         }
-        edges.get(i).set(j, new Edge<>(edge, weight));
+        edges.get(i).set(j, new Edge<>(edge, i, j, weight));
     }
 
     public void addOrUpdateEdge(int i, int j, int weight) {
@@ -243,11 +243,28 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
     public static final class Edge<TE> {
         TE data;
         int weight;
+        int from;
+        int to;
         EdgeStatus status = EdgeStatus.UNDETERMINED;
 
         Edge(TE data, int weight) {
             this.data = data;
             this.weight = weight;
+        }
+
+        Edge(TE data, int from, int to, int weight) {
+            this.data = data;
+            this.from = from;
+            this.to = to;
+            this.weight = weight;
+        }
+
+        public int getFrom() {
+            return from;
+        }
+
+        public int getTo() {
+            return to;
         }
 
         public TE getData() {
@@ -267,6 +284,8 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
             return "Edge{" +
                     "data=" + data +
                     ", weight=" + weight +
+                    ", from=" + from +
+                    ", to=" + to +
                     ", status=" + status +
                     '}';
         }
