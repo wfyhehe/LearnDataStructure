@@ -1,7 +1,4 @@
-import com.flyingwang.collections.CompleteHeap;
-import com.flyingwang.collections.Graph;
-import com.flyingwang.collections.ItemInPack;
-import com.flyingwang.collections.UnionFindSet;
+import com.flyingwang.collections.*;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
 import org.junit.Test;
@@ -336,6 +333,24 @@ public class test {
         }
         assert edges.size()==5;
         assert pathLength==19;
+    }
+
+    @Test
+    public void testBinTree() {
+        BinaryTree<Integer> tree = new BinaryTree<>(5);
+        BinaryTree.TreeNode<Integer> root = tree.getRoot();
+        BinaryTree.TreeNode<Integer> l = tree.insertAsLChild(root, 2);
+        BinaryTree.TreeNode<Integer> ll = tree.insertAsLChild(l, 1);
+        BinaryTree.TreeNode<Integer> lr = tree.insertAsRChild(l, 4);
+        BinaryTree.TreeNode<Integer> lrl = tree.insertAsLChild(lr, 3);
+        BinaryTree.TreeNode<Integer> r = tree.insertAsRChild(root, 6);
+        BinaryTree.TreeNode<Integer> rr = tree.insertAsRChild(r, 8);
+        BinaryTree.TreeNode<Integer> rrl = tree.insertAsLChild(rr, 7);
+        BinaryTree.TreeNode<Integer> rrr = tree.insertAsRChild(rr, 9);
+        BinaryTree.TreeNode<Integer> rrrr = tree.insertAsRChild(rrr, 11);
+        BinaryTree.TreeNode<Integer> rrrrl = tree.insertAsLChild(rrrr, 10);
+        System.out.println(tree.size());
+
     }
 
 }
