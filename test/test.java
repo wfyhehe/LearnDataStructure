@@ -306,8 +306,8 @@ public class test {
             System.out.println(edge);
             pathLength += edge.getWeight();
         }
-        assert edges.size()==5;
-        assert pathLength==18;
+        assert edges.size() == 5;
+        assert pathLength == 18;
     }
 
     @Test
@@ -331,12 +331,12 @@ public class test {
             System.out.println(edge);
             pathLength += edge.getWeight();
         }
-        assert edges.size()==5;
-        assert pathLength==19;
+        assert edges.size() == 5;
+        assert pathLength == 19;
     }
 
     @Test
-    public void testBinTree() {
+    public void testTraverseBinTree() {
         BinaryTree<Integer> tree = new BinaryTree<>(5);
         BinaryTree.TreeNode<Integer> root = tree.getRoot();
         BinaryTree.TreeNode<Integer> l = tree.insertAsLChild(root, 2);
@@ -350,7 +350,52 @@ public class test {
         BinaryTree.TreeNode<Integer> rrrr = tree.insertAsRChild(rrr, 11);
         BinaryTree.TreeNode<Integer> rrrrl = tree.insertAsLChild(rrrr, 10);
         System.out.println(tree.size());
+        assert tree.size() == 11;
+        System.out.println();
 
+        Integer[] preOrderSequenceSample = new Integer[]{5, 2, 1, 4, 3, 6, 8, 7, 9, 11, 10};
+        List<Integer> preOrderSequenceTest = new ArrayList<>();
+        System.out.println("Pre Order:");
+        for (Iterator<BinaryTree.TreeNode<Integer>> it = tree.preOrderIterator(); it.hasNext(); ) {
+            BinaryTree.TreeNode<Integer> node = it.next();
+            System.out.println(node);
+            preOrderSequenceTest.add(node.getData());
+        }
+        assert preOrderSequenceTest.equals(new ArrayList<>(Arrays.asList(preOrderSequenceSample)));
+        System.out.println();
+
+        Integer[] inOrderSequenceSample = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        List<Integer> inOrderSequenceTest = new ArrayList<>();
+        System.out.println("In Order:");
+        for (Iterator<BinaryTree.TreeNode<Integer>> it = tree.inOrderIterator(); it.hasNext(); ) {
+            BinaryTree.TreeNode<Integer> node = it.next();
+            System.out.println(node);
+            inOrderSequenceTest.add(node.getData());
+        }
+        assert inOrderSequenceTest.equals(new ArrayList<>(Arrays.asList(inOrderSequenceSample)));
+        System.out.println();
+
+        Integer[] postOrderSequenceSample = new Integer[]{1, 3, 4, 2, 7, 10, 11, 9, 8, 6, 5};
+        List<Integer> postOrderSequenceTest = new ArrayList<>();
+        System.out.println("In Order:");
+        for (Iterator<BinaryTree.TreeNode<Integer>> it = tree.postOrderIterator(); it.hasNext(); ) {
+            BinaryTree.TreeNode<Integer> node = it.next();
+            System.out.println(node);
+            postOrderSequenceTest.add(node.getData());
+        }
+        assert postOrderSequenceTest.equals(new ArrayList<>(Arrays.asList(postOrderSequenceSample)));
+        System.out.println();
+
+        Integer[] levelSequenceSample = new Integer[]{5, 2, 6, 1, 4, 8, 3, 7, 9, 11, 10};
+        List<Integer> levelSequenceTest = new ArrayList<>();
+        System.out.println("In Order:");
+        for (Iterator<BinaryTree.TreeNode<Integer>> it = tree.levelIterator(); it.hasNext(); ) {
+            BinaryTree.TreeNode<Integer> node = it.next();
+            System.out.println(node);
+            levelSequenceTest.add(node.getData());
+        }
+        assert levelSequenceTest.equals(new ArrayList<>(Arrays.asList(levelSequenceSample)));
+        System.out.println();
     }
 
 }

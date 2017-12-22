@@ -1,7 +1,9 @@
 package com.flyingwang.collections;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 import static com.flyingwang.collections.BinaryTree.Color.UNDETERMINED;
 
@@ -58,7 +60,23 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
 
     @Override
     public Iterator<TreeNode<E>> iterator() {
+        return preOrderIterator();
+    }
+
+    public Iterator<TreeNode<E>> preOrderIterator() {
         return new PreOrderIterator();
+    }
+
+    public Iterator<TreeNode<E>> inOrderIterator() {
+        return new InOrderIterator();
+    }
+
+    public Iterator<TreeNode<E>> postOrderIterator() {
+        return new PostOrderIterator();
+    }
+
+    public Iterator<TreeNode<E>> levelIterator() {
+        return new LevelIterator();
     }
 
     public enum Color {
@@ -75,7 +93,6 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
         private int npl;
         private int height = 1;
         private Color color = UNDETERMINED;
-
         public TreeNode(E data) {
             this.data = data;
         }
@@ -83,6 +100,10 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
         public TreeNode(E data, TreeNode<E> parent) {
             this.data = data;
             this.parent = parent;
+        }
+
+        public E getData() {
+            return data;
         }
 
         public TreeNode<E> insertAsLChild(E e) {
@@ -122,15 +143,122 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
     }
 
     private class PreOrderIterator implements Iterator<TreeNode<E>> {
+        Stack<TreeNode<E>> stack = new Stack<>();
+        TreeNode<E> current;
+
+        PreOrderIterator() {
+            current = root;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return !stack.isEmpty() || current != null;
         }
 
         @Override
         public TreeNode<E> next() {
-            return null;
+            if (current == null) {
+                current = stack.pop();
+            }
+            TreeNode<E> ret = current;
+            if (current.rChild != null) {
+                stack.push(current.rChild);
+            }
+            current = current.lChild;
+            return ret;
+        }
+    }
+
+    private class InOrderIterator implements Iterator<TreeNode<E>> {
+        Stack<TreeNode<E>> stack = new Stack<>();
+
+        InOrderIterator() {
+            goAlongLeftBranch(root);
+        }
+
+        private void goAlongLeftBranch(TreeNode<E> node) {
+            TreeNode<E> current = node;
+            while (current != null) {
+                stack.push(current);
+                current = current.lChild;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public TreeNode<E> next() {
+            TreeNode<E> node = stack.pop();
+            if (node.rChild != null) {
+                goAlongLeftBranch(node.rChild);
+            }
+            return node;
+        }
+    }
+
+    private class PostOrderIterator implements Iterator<TreeNode<E>> {
+        Stack<TreeNode<E>> stack = new Stack<>();
+        TreeNode<E> last;
+
+        PostOrderIterator() {
+            goAlongLeftBranch(root);
+        }
+
+        private void goAlongLeftBranch(TreeNode<E> node) {
+            TreeNode<E> current = node;
+            while (current != null) {
+                stack.push(current);
+                current = current.lChild;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public TreeNode<E> next() {
+            TreeNode<E> node = stack.peek();
+            if (node.lChild == null && node.rChild == null ||
+                    node.rChild == null && node.lChild.equals(last) ||
+                    node.rChild != null && node.rChild.equals(last)) {
+                stack.pop();
+                last = node;
+                return node;
+            }
+            if (node.rChild != null) {
+                goAlongLeftBranch(node.rChild);
+            }
+            return next();
+        }
+    }
+
+    private class LevelIterator implements Iterator<TreeNode<E>> {
+        Queue<TreeNode<E>> queue = new LinkedList<>();
+
+        LevelIterator() {
+            queue.offer(root);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !queue.isEmpty();
+        }
+
+        @Override
+        public TreeNode<E> next() {
+            TreeNode<E> node = queue.poll();
+            if (node.lChild != null) {
+                queue.offer(node.lChild);
+            }
+            if (node.rChild != null) {
+                queue.offer(node.rChild);
+            }
+            return node;
         }
     }
 }
