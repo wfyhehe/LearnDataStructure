@@ -398,4 +398,30 @@ public class test {
         System.out.println();
     }
 
+    public BinarySearchTree<Integer> bstInsert() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>(5);
+        bst.insert(2);
+        bst.insert(6);
+        bst.insert(4);
+        bst.insert(3);
+        bst.insert(1);
+        return bst;
+    }
+
+    @Test
+    public void testBstInsert() {
+        bstInsert();
+    }
+
+    @Test
+    public void testBSTRemove() {
+        BinarySearchTree<Integer> bst = bstInsert();
+        bst.remove(2);
+        bst.remove(5);
+        bst.remove(6);
+        bst.remove(1);
+        bst.remove(4);
+        assert bst.size() == 1;
+    }
+
 }

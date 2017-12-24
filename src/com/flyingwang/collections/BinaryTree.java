@@ -19,17 +19,25 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
         this.size = 1;
     }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     public TreeNode<E> getRoot() {
         return root;
+    }
+
+    public void setRoot(TreeNode<E> root) {
+        this.root = root;
     }
 
     private int updateHeight(TreeNode<E> node) {
         int lHeight = node.lChild != null ? node.lChild.height : 0;
         int rHeight = node.rChild != null ? node.rChild.height : 0;
-        return node.height + Math.max(lHeight, rHeight);
+        return 1 + Math.max(lHeight, rHeight);
     }
 
-    private void updateHeightAbove(TreeNode<E> node) {
+    public void updateHeightAbove(TreeNode<E> node) {
         node.height = updateHeight(node);
         if (node.parent != null) {
             updateHeightAbove(node.parent);
@@ -93,6 +101,7 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
         private int npl;
         private int height = 1;
         private Color color = UNDETERMINED;
+
         public TreeNode(E data) {
             this.data = data;
         }
@@ -102,8 +111,68 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
             this.parent = parent;
         }
 
+        public void setlChild(TreeNode<E> lChild) {
+            this.lChild = lChild;
+        }
+
+        public void setrChild(TreeNode<E> rChild) {
+            this.rChild = rChild;
+        }
+
+        public TreeNode<E> getLChild() {
+            return lChild;
+        }
+
+        public void setLChild(TreeNode<E> lChild) {
+            this.lChild = lChild;
+        }
+
+        public TreeNode<E> getRChild() {
+            return rChild;
+        }
+
+        public void setRChild(TreeNode<E> rChild) {
+            this.rChild = rChild;
+        }
+
+        public TreeNode<E> getParent() {
+            return parent;
+        }
+
+        public void setParent(TreeNode<E> parent) {
+            this.parent = parent;
+        }
+
+        public int getNpl() {
+            return npl;
+        }
+
+        public void setNpl(int npl) {
+            this.npl = npl;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+
         public E getData() {
             return data;
+        }
+
+        public void setData(E data) {
+            this.data = data;
         }
 
         public TreeNode<E> insertAsLChild(E e) {
