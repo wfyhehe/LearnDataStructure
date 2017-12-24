@@ -1,4 +1,4 @@
-package com.flyingwang.collections;
+package com.flyingwang.utils;
 
 /**
  * Created by Administrator on 2017/12/21, good luck.

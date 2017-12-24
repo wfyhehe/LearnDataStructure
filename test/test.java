@@ -1,6 +1,7 @@
 import com.flyingwang.collections.*;
 import com.flyingwang.utils.Collections;
 import com.flyingwang.utils.DynamicProgramming;
+import com.flyingwang.utils.ItemInPack;
 import org.junit.Test;
 
 import java.util.*;

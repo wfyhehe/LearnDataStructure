@@ -31,7 +31,7 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
         this.root = root;
     }
 
-    private int updateHeight(TreeNode<E> node) {
+    int updateHeight(TreeNode<E> node) {
         int lHeight = node.lChild != null ? node.lChild.height : 0;
         int rHeight = node.rChild != null ? node.rChild.height : 0;
         return 1 + Math.max(lHeight, rHeight);

@@ -1,7 +1,5 @@
 package com.flyingwang.utils;
 
-import com.flyingwang.collections.ItemInPack;
-
 import java.util.*;
 
 /**
