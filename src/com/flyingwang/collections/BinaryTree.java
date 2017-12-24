@@ -14,6 +14,14 @@ public class BinaryTree<E> implements Iterable<BinaryTree.TreeNode<E>> {
     private TreeNode<E> root;
     private int size;
 
+    public BinaryTree() {
+    }
+
+    public BinaryTree(TreeNode<E> root) {
+        this.root = root;
+        this.size = 1;
+    }
+
     public BinaryTree(E rootData) {
         this.root = new TreeNode<>(rootData);
         this.size = 1;

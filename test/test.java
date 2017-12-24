@@ -425,4 +425,26 @@ public class test {
         assert bst.size() == 1;
     }
 
+    @Test
+    public void testHuffmanTree() {
+        Stack<HuffmanTree.HuffmanNode<String>> nodes = new Stack<>();
+        nodes.push(new HuffmanTree.HuffmanNode<>("the", 1192));
+        nodes.push(new HuffmanTree.HuffmanNode<>("of", 667));
+        nodes.push(new HuffmanTree.HuffmanNode<>("a", 541));
+        nodes.push(new HuffmanTree.HuffmanNode<>("to", 518));
+        nodes.push(new HuffmanTree.HuffmanNode<>("and", 462));
+        nodes.push(new HuffmanTree.HuffmanNode<>("in", 450));
+        nodes.push(new HuffmanTree.HuffmanNode<>("that", 242));
+        nodes.push(new HuffmanTree.HuffmanNode<>("he", 195));
+        nodes.push(new HuffmanTree.HuffmanNode<>("is", 190));
+        nodes.push(new HuffmanTree.HuffmanNode<>("at", 181));
+        nodes.push(new HuffmanTree.HuffmanNode<>("on", 174));
+        nodes.push(new HuffmanTree.HuffmanNode<>("for", 157));
+        nodes.push(new HuffmanTree.HuffmanNode<>("His", 138));
+        nodes.push(new HuffmanTree.HuffmanNode<>("are", 124));
+        nodes.push(new HuffmanTree.HuffmanNode<>("be", 123));
+        HuffmanTree<String> tree = new HuffmanTree<>(nodes);
+        tree.display();
+    }
+
 }

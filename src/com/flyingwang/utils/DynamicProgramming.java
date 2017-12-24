@@ -121,8 +121,8 @@ public class DynamicProgramming {
     }
 
     public static List<Integer> completePack(List<ItemInPack> items, int packSize) {
-        List<Integer> valueList = new ArrayList<>(items.size());
-        List<Map<ItemInPack, Integer>> selectedItems = new ArrayList<>();
+        List<Integer> valueList = new ArrayList<>(items.size()); // 存放总价值的一位数组
+        List<Map<ItemInPack, Integer>> selectedItems = new ArrayList<>(); // 存放选取的物品及数量
         for (int i = 0; i <= packSize; i++) {
             valueList.add(0);
             selectedItems.add(new HashMap<>());
@@ -131,9 +131,9 @@ public class DynamicProgramming {
             for (int currentSize = 0; currentSize <= packSize; currentSize++) {
                 ItemInPack thisItem = items.get(i);
                 ItemInPack lastItem = i > 0 ? items.get(i - 1) : null;
-                if (lastItem == null) {
-                    if (currentSize >= thisItem.getCost()) {
-                        valueList.set(currentSize,
+                if (lastItem == null) { // 第一行，仅有一种物品（item[0]）
+                    if (currentSize >= thisItem.getCost()) { // 当前容量可以装下至少一个item[0]
+                        valueList.set(currentSize, // valueList(当前容量 - 1个item[0]的容量) + item[0]价值
                                 valueList.get(currentSize - thisItem.getCost()) + thisItem.getValue()
                         );
                         Integer thisCount = selectedItems.get(currentSize).get(thisItem);
@@ -142,14 +142,14 @@ public class DynamicProgramming {
                         }
                         selectedItems.get(currentSize).put(thisItem, thisCount + 1);
                     } else {
-                        valueList.set(currentSize, 0);
+                        valueList.set(currentSize, 0); // 不足以装下一个物品1, value设为0
                     }
                     continue;
                 }
-                if (currentSize >= thisItem.getCost()) {
-                    int valueWithoutThis = valueList.get(currentSize); // no need items[i]
+                if (currentSize >= thisItem.getCost()) { // 第n行（n>1)
+                    int valueWithoutThis = valueList.get(currentSize); // 上一次到该行时的价值（不加item[i]）
                     int valueWithThis = valueList.get(currentSize - thisItem.getCost())
-                            + thisItem.getValue();
+                            + thisItem.getValue(); // valueList(当前容量 - 1个item[i]的容量) + item[i]价值
                     if (valueWithoutThis < valueWithThis) {
                         valueList.set(currentSize, valueWithThis);
                         Map<ItemInPack, Integer> mapWithoutThis =
