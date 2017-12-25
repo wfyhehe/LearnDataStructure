@@ -474,30 +474,12 @@ public class test {
     }
 
     @Test
-    public void testTsp() {
-        Graph<Integer, Integer> g = new Graph<>(5);
-        for (int i = 0; i < g.getVertexes().size(); i++) {
-            g.getVertexes().set(i, new Graph.Vertex<>(i));
-        }
-        g.addOrUpdateEdge(0, 1, 17);
-        g.addOrUpdateEdge(0, 2, 7);
-        g.addOrUpdateEdge(0, 3, 35);
-        g.addOrUpdateEdge(0, 4, 18);
-        g.addOrUpdateEdge(1, 0, 9);
-        g.addOrUpdateEdge(1, 2, 5);
-        g.addOrUpdateEdge(1, 3, 14);
-        g.addOrUpdateEdge(1, 4, 19);
-        g.addOrUpdateEdge(2, 0, 29);
-        g.addOrUpdateEdge(2, 1, 24);
-        g.addOrUpdateEdge(2, 3, 30);
-        g.addOrUpdateEdge(2, 4, 12);
-        g.addOrUpdateEdge(3, 0, 27);
-        g.addOrUpdateEdge(3, 1, 21);
-        g.addOrUpdateEdge(3, 2, 25);
-        g.addOrUpdateEdge(3, 4, 48);
-        g.addOrUpdateEdge(4, 0, 15);
-        g.addOrUpdateEdge(4, 1, 16);
-        g.addOrUpdateEdge(4, 2, 28);
-        g.addOrUpdateEdge(4, 3, 18);
+    public void testHorseTraversal() {
+        HorseTraversal ht;
+//        for (int i = 4; i < 15; i++) {
+        ht = new HorseTraversal(6);
+        System.out.printf("%d: %s\n", 6, ht.canTraverse() ? "Succeeded" : "Failed");
+//        }
+        System.out.println("finally");
     }
 }
