@@ -12,7 +12,7 @@ import java.util.List;
 public class ColorBackTrack {
     private Graph<Integer, Integer> graph;
     private int colorCount;
-    private int caseCount = 1;
+    private int caseCount = 0;
     private int[] colors;
     private boolean print;
 
@@ -38,11 +38,11 @@ public class ColorBackTrack {
             return;
         }
         if (index == graph.size() - 1) {
-            if(this.print) {
+            caseCount++;
+            if (this.print) {
                 System.out.printf("Case %d:\n", caseCount);
                 printColors();
             }
-            caseCount++;
             return;
         }
 

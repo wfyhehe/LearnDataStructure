@@ -1,8 +1,6 @@
 import com.flyingwang.collections.*;
+import com.flyingwang.utils.*;
 import com.flyingwang.utils.Collections;
-import com.flyingwang.utils.ColorBackTrack;
-import com.flyingwang.utils.DynamicProgramming;
-import com.flyingwang.utils.ItemInPack;
 import org.junit.Test;
 
 import java.util.*;
@@ -462,11 +460,16 @@ public class test {
         g.addOrUpdateDualEdge(1, 4);
         g.addOrUpdateDualEdge(2, 3);
         g.addOrUpdateDualEdge(3, 4);
-        ColorBackTrack cbt = new ColorBackTrack(g, 40, false);
+        ColorBackTrack cbt = new ColorBackTrack(g, 4, false);
         long start = System.currentTimeMillis();
         cbt.run();
         long end = System.currentTimeMillis();
-        System.out.printf("Time span: %dms\n", (end-start));
+        System.out.printf("Time span: %dms\n", (end - start));
     }
 
+    @Test
+    public void testQueen() {
+        QueenBackTrack qbt = new QueenBackTrack(6);
+        qbt.run();
+    }
 }
