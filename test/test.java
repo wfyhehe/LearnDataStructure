@@ -476,10 +476,12 @@ public class test {
     @Test
     public void testHorseTraversal() {
         HorseTraversal ht;
-//        for (int i = 4; i < 15; i++) {
-        ht = new HorseTraversal(6);
-        System.out.printf("%d: %s\n", 6, ht.canTraverse() ? "Succeeded" : "Failed");
-//        }
-        System.out.println("finally");
+        for (int i = 4; i < 20; i+=2) {
+            ht = new HorseTraversal(i);
+            long start = System.currentTimeMillis();
+            System.out.printf("%d: %s\n",i, ht.canTraverse() ? "Succeeded" : "Failed");
+            long end = System.currentTimeMillis();
+            System.out.printf("Time span: %dms\n", (end - start));
+        }
     }
 }
