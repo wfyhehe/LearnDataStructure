@@ -14,15 +14,23 @@ public class ColorBackTrack {
     private int colorCount;
     private int caseCount = 1;
     private int[] colors;
+    private boolean print;
 
     public ColorBackTrack(Graph<Integer, Integer> graph, int colorCount) {
         this.graph = graph;
         this.colorCount = colorCount;
         colors = new int[graph.size()];
+        print = true;
+    }
+
+    public ColorBackTrack(Graph<Integer, Integer> graph, int colorCount, boolean print) {
+        this(graph, colorCount);
+        this.print = print;
     }
 
     public void run() {
         backTrack(-1);
+        System.out.printf("Total %d cases.\n", caseCount);
     }
 
     private void backTrack(int index) {
@@ -30,8 +38,10 @@ public class ColorBackTrack {
             return;
         }
         if (index == graph.size() - 1) {
-            System.out.printf("Case %d:\n", caseCount);
-            printColors();
+            if(this.print) {
+                System.out.printf("Case %d:\n", caseCount);
+                printColors();
+            }
             caseCount++;
             return;
         }

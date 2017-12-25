@@ -462,8 +462,11 @@ public class test {
         g.addOrUpdateDualEdge(1, 4);
         g.addOrUpdateDualEdge(2, 3);
         g.addOrUpdateDualEdge(3, 4);
-        ColorBackTrack cbt = new ColorBackTrack(g, 4);
+        ColorBackTrack cbt = new ColorBackTrack(g, 40, false);
+        long start = System.currentTimeMillis();
         cbt.run();
+        long end = System.currentTimeMillis();
+        System.out.printf("Time span: %dms\n", (end-start));
     }
 
 }
