@@ -71,8 +71,6 @@ public class HuffmanTree<E> extends BinaryTree<E> {
                     "data=" + getData() +
                     ", codeSequence=" + codeSequence.toString() +
                     ", weight=" + weight +
-                    ", left=" + (getLChild() != null ? getLChild().getData() : null) +
-                    ", right=" + (getRChild() != null ? getRChild().getData() : null) +
                     '}';
         }
     }

@@ -1,5 +1,6 @@
 import com.flyingwang.collections.*;
 import com.flyingwang.utils.Collections;
+import com.flyingwang.utils.ColorBackTrack;
 import com.flyingwang.utils.DynamicProgramming;
 import com.flyingwang.utils.ItemInPack;
 import org.junit.Test;
@@ -445,6 +446,24 @@ public class test {
         nodes.push(new HuffmanTree.HuffmanNode<>("be", 123));
         HuffmanTree<String> tree = new HuffmanTree<>(nodes);
         tree.display();
+    }
+
+    @Test
+    public void testColor() {
+        Graph<Integer, Integer> g = new Graph<>(5);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateDualEdge(0, 1);
+        g.addOrUpdateDualEdge(0, 2);
+        g.addOrUpdateDualEdge(0, 3);
+        g.addOrUpdateDualEdge(1, 2);
+        g.addOrUpdateDualEdge(1, 3);
+        g.addOrUpdateDualEdge(1, 4);
+        g.addOrUpdateDualEdge(2, 3);
+        g.addOrUpdateDualEdge(3, 4);
+        ColorBackTrack cbt = new ColorBackTrack(g, 4);
+        cbt.run();
     }
 
 }
