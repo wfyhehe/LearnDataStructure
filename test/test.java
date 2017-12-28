@@ -489,8 +489,10 @@ public class test {
     public void testKmp() {
         String str1 = "csgyeuchinewhuiachinchillwfehuifchinchillafehufiheriug";
         String str2 = "chinchilla";
-        String str3 = "chinchillaq";
+        String str3 = "abcdqabcdabcp";
+        String str4 = "aaaaaaaaaaaabc";
         assert Collections.isSubstring(str2, str1);
         assert !Collections.isSubstring(str3, str1);
+        assert !Collections.isSubstring(str4, str1);
     }
 }

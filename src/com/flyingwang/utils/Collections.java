@@ -311,7 +311,7 @@ public class Collections {
             if (t < 0 || pattern.charAt(j) == pattern.charAt(t)) {
                 j++;
                 t++;
-                next[j] = t;
+                next[j] = pattern.charAt(j) != pattern.charAt(t) ? t : next[t];
             } else {
                 t = next[t];
             }
