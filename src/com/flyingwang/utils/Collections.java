@@ -304,9 +304,10 @@ public class Collections {
 
     private static int[] getKmpNext(String pattern) {
         int[] next = new int[pattern.length()];
+        int j = 0;
         int t = -1;
         next[0] = -1;
-        for (int j = 0; j < pattern.length() - 1;) {
+        while (j < pattern.length() - 1) {
             if (t < 0 || pattern.charAt(j) == pattern.charAt(t)) {
                 j++;
                 t++;
