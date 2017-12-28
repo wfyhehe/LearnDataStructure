@@ -290,15 +290,47 @@ public class Collections {
                     }
                 }
             }
-            if(indexOfEdgeToBeRemoved!=null) {
+            if (indexOfEdgeToBeRemoved != null) {
                 allEdges.remove(indexOfEdgeToBeRemoved.intValue());
             }
-            if(temp!=null) {
+            if (temp != null) {
                 selectedEdges.add(temp);
                 group.add(temp.getFrom());
                 group.add(temp.getTo());
             }
         }
         return selectedEdges;
+    }
+
+    private static int[] getKmpNext(String pattern) {
+        int[] next = new int[pattern.length()];
+        int t = -1;
+        next[0] = -1;
+        for (int j = 0; j < pattern.length() - 1;) {
+            if (t < 0 || pattern.charAt(j) == pattern.charAt(t)) {
+                j++;
+                t++;
+                next[j] = t;
+            } else {
+                t = next[t];
+            }
+        }
+        return next;
+    }
+
+    public static boolean isSubstring(String pattern, String text) {
+        int[] next = getKmpNext(pattern);
+        int i = 0;
+        int j = 0;
+        while (i < text.length() && j < pattern.length()) {
+            if (j < 0 || text.charAt(i) == pattern.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                j = next[j];
+            }
+        }
+
+        return j == pattern.length();
     }
 }

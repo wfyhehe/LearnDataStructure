@@ -484,4 +484,13 @@ public class test {
             System.out.printf("Time span: %dms\n", (end - start));
         }
     }
+
+    @Test
+    public void testKmp() {
+        String str1 = "csgyeuchinewhuiachinchillwfehuifchinchillafehufiheriug";
+        String str2 = "chinchilla";
+        String str3 = "chinchillaq";
+        assert Collections.isSubstring(str2, str1);
+        assert !Collections.isSubstring(str3, str1);
+    }
 }
