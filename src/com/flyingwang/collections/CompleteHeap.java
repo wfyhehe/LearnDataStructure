@@ -27,6 +27,17 @@ public class CompleteHeap<E extends Comparable<? super E>> implements Collection
         organizedElements = new ArrayList<>();
     }
 
+    public static <E extends Comparable<? super E>> void heapSort(List<E> list) {
+        for (int i = CompleteHeap.getLastNonLeafIndex(list.size()); i >= 0; i--) {
+            percolateDown(list, i);
+        }
+        for (int i = list.size() - 1; i > 0; i--) {
+            Collections.swap(list, 0, i);
+            percolateDown(list, 0, i);
+        }
+
+    }
+
     private static int getParentIndex(int index) {
         return (index - 1) / 2;
     }
@@ -39,11 +50,58 @@ public class CompleteHeap<E extends Comparable<? super E>> implements Collection
         return (index + 1) * 2;
     }
 
-    private int getLastNonLeafIndex() {
-        if (this.size() <= 1) {
+    private static int getLastNonLeafIndex(int size) {
+        if (size <= 1) {
             throw new NoSuchElementException();
         }
-        return this.size() / 2 - 1;
+        return size / 2 - 1;
+    }
+
+    private static <E extends Comparable<? super E>> void percolateUp(List<E> list, int index) {
+        while (index > 0) {
+            E current = list.get(index);
+            E parent = list.get(getParentIndex(index));
+            if (current.compareTo(parent) > 0) {
+                Collections.swap(list, index, getParentIndex(index));
+                index = getParentIndex(index);
+            } else {
+                break;
+            }
+        }
+    }
+
+    private static <E extends Comparable<? super E>> void percolateDown(List<E> list, int index) {
+        percolateDown(list, index, list.size());
+    }
+
+    private static <E extends Comparable<? super E>> void percolateDown(
+            List<E> list, int index, int size) {
+        while (getLeftChildIndex(index) < size) { // while not a leaf
+            E current = list.get(index);
+            E lChild = list.get(getLeftChildIndex(index));
+            if (getRightChildIndex(index) < size) { // rChild exists
+                E rChild = list.get(getRightChildIndex(index));
+                int indexOfMaxChild = lChild.compareTo(rChild) > 0 ?
+                        getLeftChildIndex(index) : getRightChildIndex(index);
+                if (current.compareTo(list.get(indexOfMaxChild)) < 0) {
+                    Collections.swap(list, index, indexOfMaxChild);
+                    index = indexOfMaxChild;
+                } else { // in proper position now
+                    break;
+                }
+            } else { // lChild only
+                if (current.compareTo(lChild) < 0) {
+                    Collections.swap(list, index, getLeftChildIndex(index));
+                    index = getLeftChildIndex(index);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    private int getLastNonLeafIndex() {
+        return getLastNonLeafIndex(this.size());
     }
 
     @Override
@@ -76,51 +134,12 @@ public class CompleteHeap<E extends Comparable<? super E>> implements Collection
         throw new NotImplementedException();
     }
 
-    private void swap(int index1, int index2) {
-        if (index1 >= this.size() || index2 >= this.size()) {
-            throw new IndexOutOfBoundsException();
-        }
-        E temp = this.organizedElements.get(index1);
-        this.organizedElements.set(index1, this.organizedElements.get(index2));
-        this.organizedElements.set(index2, temp);
-    }
-
     private void percolateUp(int index) {
-        while (index > 0) {
-            E current = organizedElements.get(index);
-            E parent = organizedElements.get(getParentIndex(index));
-            if (current.compareTo(parent) > 0) {
-                swap(index, getParentIndex(index));
-                index = getParentIndex(index);
-            } else {
-                break;
-            }
-        }
+        percolateUp(this.organizedElements, index);
     }
 
     private void percolateDown(int index) {
-        while (getLeftChildIndex(index) < this.size()) { // while not a leaf
-            E current = organizedElements.get(index);
-            E lChild = organizedElements.get(getLeftChildIndex(index));
-            if (getRightChildIndex(index) < this.size()) { // rChild exists
-                E rChild = organizedElements.get(getRightChildIndex(index));
-                int indexOfMaxChild = lChild.compareTo(rChild) > 0 ?
-                        getLeftChildIndex(index) : getRightChildIndex(index);
-                if (current.compareTo(organizedElements.get(indexOfMaxChild)) < 0) {
-                    swap(index, indexOfMaxChild);
-                    index = indexOfMaxChild;
-                } else { // in proper position now
-                    break;
-                }
-            } else { // lChild only
-                if (current.compareTo(lChild) < 0) {
-                    swap(index, getLeftChildIndex(index));
-                    index = getLeftChildIndex(index);
-                } else {
-                    break;
-                }
-            }
-        }
+        percolateDown(organizedElements, index);
     }
 
     @Override

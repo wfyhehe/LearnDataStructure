@@ -576,4 +576,14 @@ public class test {
         Collections.shellSort(integers);
         System.out.println(new ArrayList<>(Arrays.asList(integers)));
     }
+
+    @Test
+    public void testHeapSort() {
+        Integer[] integers = new Integer[]{
+                98, 79, 15, 65, 186, 14, 22, 61, 48
+        };
+        List<Integer> list =  new ArrayList<>(Arrays.asList(integers));
+        Collections.heapSort(list);
+        System.out.println(list);
+    }
 }
