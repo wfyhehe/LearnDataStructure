@@ -176,6 +176,10 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         return ret;
     }
 
+    public Edge remove(Edge<TE> edge) {
+        return remove(edge.getFrom(), edge.getTo());
+    }
+
     public Vertex remove(int i) {
         rangeCheck(i, 0);
         Vertex ret = vertexes.get(i);
@@ -217,6 +221,18 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
         return new GraphBFSIterator(start);
     }
 
+    @Override
+    public Graph<TV, TE> clone() throws CloneNotSupportedException {
+        Graph<TV, TE> graph = new Graph<>(size());
+        graph.vertexes = new ArrayList<>(this.vertexes);
+        graph.edges = new ArrayList<>();
+        for (List<Edge<TE>> edgeList : edges) {
+            graph.edges.add(new ArrayList<>(edgeList));
+        }
+        graph.edgeCount = this.edgeCount;
+        return graph;
+    }
+
     public static final class Vertex<TV> {
         TV data;
         int inDegree = 0;
@@ -229,6 +245,14 @@ public class Graph<TV, TE> implements Iterable<Graph.Vertex<TV>> {
 
         public Vertex(TV data) {
             this.data = data;
+        }
+
+        public int getInDegree() {
+            return inDegree;
+        }
+
+        public int getOutDegree() {
+            return outDegree;
         }
 
         @Override

@@ -334,4 +334,31 @@ public class Collections {
 
         return j == pattern.length();
     }
+
+    public static <E> List<Integer> kahn(Graph<E, E> g) throws CloneNotSupportedException {
+        Graph<E, E> graph = g.clone();
+        List<Integer> ret = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>(); // 入度=0的顶点
+        List<List<Graph.Edge<E>>> edges = new ArrayList<>(graph.getEdges());
+        for (int i = 0; i < graph.size(); i++) {
+            if (graph.getVertexes().get(i).getInDegree() == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            ret.add(current);
+            for (Graph.Edge<E> edge : edges.get(current)) {
+                if (edge == null) continue;
+                graph.remove(edge);
+                if (graph.getVertexes().get(edge.getTo()).getInDegree() == 0) {
+                    queue.offer(edge.getTo());
+                }
+            }
+        }
+        if (graph.getEdgeCount() > 0) {
+            throw new RuntimeException("Graph is closed");
+        }
+        return ret;
+    }
 }

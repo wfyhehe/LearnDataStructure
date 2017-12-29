@@ -398,7 +398,7 @@ public class test {
         System.out.println();
     }
 
-    public BinarySearchTree<Integer> bstInsert() {
+    private BinarySearchTree<Integer> bstInsert() {
         BinarySearchTree<Integer> bst = new BinarySearchTree<>(5);
         bst.insert(2);
         bst.insert(6);
@@ -495,4 +495,50 @@ public class test {
         assert !Collections.isSubstring(str3, str1);
         assert !Collections.isSubstring(str4, str1);
     }
+
+    private Graph<Integer, Integer> graphForTopologicalSort() {
+        Graph<Integer, Integer> g = new Graph<>(13);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateEdge(0, 1);
+        g.addOrUpdateEdge(0, 5);
+        g.addOrUpdateEdge(0, 6);
+        g.addOrUpdateEdge(2, 0);
+        g.addOrUpdateEdge(2, 3);
+        g.addOrUpdateEdge(3, 5);
+        g.addOrUpdateEdge(5, 4);
+        g.addOrUpdateEdge(6, 4);
+        g.addOrUpdateEdge(6, 9);
+        g.addOrUpdateEdge(7, 6);
+        g.addOrUpdateEdge(8, 7);
+        g.addOrUpdateEdge(9, 10);
+        g.addOrUpdateEdge(9, 11);
+        g.addOrUpdateEdge(9, 12);
+        g.addOrUpdateEdge(11, 12);
+        return g;
+    }
+
+    @Test
+    public void testKahn() {
+        Graph<Integer, Integer> g = graphForTopologicalSort();
+        try {
+            System.out.println(Collections.kahn(g));
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testFailedKahn() {
+        Graph<Integer, Integer> g = graphForTopologicalSort();
+        g.addOrUpdateEdge(9,8);
+        try {
+            System.out.println(Collections.kahn(g));
+        } catch (RuntimeException | CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
