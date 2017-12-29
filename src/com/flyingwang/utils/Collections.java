@@ -361,4 +361,59 @@ public class Collections {
         }
         return ret;
     }
+
+    public static <E extends Comparable<? super E>> void insertSort(List<E> list) {
+        for (int i = 1; i < list.size(); i++) {
+            E e = list.remove(i);
+            int index = 0;
+            for (; index < i; index++) {
+                if (e.compareTo(list.get(index)) < 0) {
+                    break;
+                }
+            }
+            list.add(index, e);
+        }
+    }
+
+    public static <E extends Comparable<? super E>> void insertSort(E[] array) {
+        for (int i = 1; i < array.length; i++) {
+            E e = array[i];
+            int index = 0;
+            for (; index < i; index++) {
+                if (e.compareTo(array[index]) < 0) {
+                    break;
+                }
+            }
+            for (int j = i; j > index; j--) {
+                array[j] = array[j - 1];
+            }
+            array[index] = e;
+        }
+    }
+
+
+    public static <E extends Comparable<? super E>> void shellSort(E[] array) {
+        shellSort(array, array.length / 2);
+    }
+
+    public static <E extends Comparable<? super E>> void shellSort(E[] array, int dist) {
+        while (dist > 0) {
+            for (int d = 0; d < dist; d++) {
+                for (int i = dist; i < array.length; i += dist) {
+                    E e = array[i];
+                    int index = 0;
+                    for (; index < i; index += dist) {
+                        if (e.compareTo(array[index]) < 0) {
+                            break;
+                        }
+                    }
+                    for (int j = i; j > index; j -= dist) {
+                        array[j] = array[j - dist];
+                    }
+                    array[index] = e;
+                }
+                dist /= 2;
+            }
+        }
+    }
 }

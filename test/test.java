@@ -1,6 +1,6 @@
 import com.flyingwang.collections.*;
-import com.flyingwang.utils.*;
 import com.flyingwang.utils.Collections;
+import com.flyingwang.utils.*;
 import org.junit.Test;
 
 import java.util.*;
@@ -476,10 +476,10 @@ public class test {
     @Test
     public void testHorseTraversal() {
         HorseTraversal ht;
-        for (int i = 4; i < 20; i+=2) {
+        for (int i = 4; i < 20; i += 2) {
             ht = new HorseTraversal(i);
             long start = System.currentTimeMillis();
-            System.out.printf("%d: %s\n",i, ht.canTraverse() ? "Succeeded" : "Failed");
+            System.out.printf("%d: %s\n", i, ht.canTraverse() ? "Succeeded" : "Failed");
             long end = System.currentTimeMillis();
             System.out.printf("Time span: %dms\n", (end - start));
         }
@@ -532,7 +532,7 @@ public class test {
     @Test
     public void testFailedKahn() {
         Graph<Integer, Integer> g = graphForTopologicalSort();
-        g.addOrUpdateEdge(9,8);
+        g.addOrUpdateEdge(9, 8);
         try {
             System.out.println(Collections.kahn(g));
         } catch (RuntimeException | CloneNotSupportedException e) {
@@ -540,5 +540,40 @@ public class test {
         }
     }
 
+    private List<Integer> getRandomIntegers(int length) {
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            list.add(random.nextInt(10000)); // 10000 ~ 99999
+        }
+        return list;
+    }
 
+    @Test
+    public void testInsertSort() {
+        List<Integer> integers = getRandomIntegers(20);
+        List<Integer> copyIntegers = new ArrayList<>(integers);
+        java.util.Collections.sort(integers);
+        Collections.insertSort(copyIntegers);
+        System.out.println(copyIntegers);
+        assert integers.equals(copyIntegers);
+    }
+
+    @Test
+    public void testInsertSort2() {
+        Integer[] integers = new Integer[]{
+                98, 79, 15, 65, 186, 14, 22, 61, 48
+        };
+        Collections.insertSort(integers);
+        System.out.println(new ArrayList<>(Arrays.asList(integers)));
+    }
+
+    @Test
+    public void testShellSort() {
+        Integer[] integers = new Integer[]{
+                98, 79, 15, 65, 186, 14, 22, 61, 48
+        };
+        Collections.shellSort(integers);
+        System.out.println(new ArrayList<>(Arrays.asList(integers)));
+    }
 }
