@@ -206,7 +206,7 @@ public class Collections {
         Set<Integer> group = new HashSet<>();
         Set<Integer> visitedGroup = new HashSet<>();
         List<Integer> ret = new ArrayList<>(graph.size());
-        for (int i = 0; i < graph.size(); i++) {
+        for (int i = 0; i < graph.size(); i++) { // add all dist from source
             if (i == source) {
                 group.add(i);
                 ret.add(0);  // self to self is 0
@@ -218,18 +218,16 @@ public class Collections {
             } else {
                 ret.add(null);
             }
-        }
+        } // init done
         while (current != null) {
             group.remove(current);
             visitedGroup.add(current);
-            for (int i = 0; i < graph.size(); i++) {
-                if (graph.getEdge(current, i) != null && !visitedGroup.contains(i)) {
-                    group.add(i);
-                }
-            }
-            for (int i = 0; i < graph.size(); i++) {
+            for (int i = 0; i < graph.size(); i++) { // try current as bridge to vertex(i)
                 if (graph.getEdge(current, i) != null) {
-                    if (ret.get(i) == null ||
+                    if (!visitedGroup.contains(i)) {
+                        group.add(i); // add all neighbours of current into group
+                    }
+                    if (ret.get(i) == null || // no path or new path nearer, update distance
                             ret.get(i) > ret.get(current) + graph.getEdge(current, i).getWeight()) {
                         ret.set(i, ret.get(current) + graph.getEdge(current, i).getWeight());
                     }
@@ -238,11 +236,12 @@ public class Collections {
             Integer minDistance = null;
             current = null;
             for (int i = 0; i < ret.size(); i++) {
+                // traverse all distance from source, choose the shortest for next loop
                 Integer distance = ret.get(i);
                 if (distance != null && distance != 0 && group.contains(i)) {
                     if (minDistance == null || distance < minDistance) {
                         minDistance = distance;
-                        current = i;
+                        current = i; // can't find any when group is empty
                     }
                 }
             }
