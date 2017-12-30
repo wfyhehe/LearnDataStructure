@@ -78,7 +78,7 @@ public class test {
 
     @Test
     public void testPermutation() {
-        Integer[] elements = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        Integer[] elements = {1, 2, 3, 4, 5, 6};
         long startTime = System.currentTimeMillis();
         List<List<Integer>> output = Collections.generatePermutation(Arrays.asList(elements));
         long endTime = System.currentTimeMillis();
@@ -476,7 +476,7 @@ public class test {
     @Test
     public void testHorseTraversal() {
         HorseTraversal ht;
-        for (int i = 4; i < 20; i += 2) {
+        for (int i = 4; i < 16; i += 2) {
             ht = new HorseTraversal(i);
             long start = System.currentTimeMillis();
             System.out.printf("%d: %s\n", i, ht.canTraverse() ? "Succeeded" : "Failed");
@@ -523,7 +523,7 @@ public class test {
     public void testKahn() {
         Graph<Integer, Integer> g = graphForTopologicalSort();
         try {
-            System.out.println(Collections.kahn(g));
+            System.out.println(Collections.topologicalSort(g));
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -534,7 +534,7 @@ public class test {
         Graph<Integer, Integer> g = graphForTopologicalSort();
         g.addOrUpdateEdge(9, 8);
         try {
-            System.out.println(Collections.kahn(g));
+            System.out.println(Collections.topologicalSort(g));
         } catch (RuntimeException | CloneNotSupportedException e) {
             e.printStackTrace();
         }

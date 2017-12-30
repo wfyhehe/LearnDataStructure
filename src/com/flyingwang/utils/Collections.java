@@ -37,7 +37,7 @@ public class Collections {
             elementsContainer.add(new ArrayList<>(elements));
         }
 
-        for (int i = startIndex; i < elements.size(); i++) { // elements[i] magkes the first
+        for (int i = startIndex; i < elements.size(); i++) { // elements[i] makes the first
             // position
             // if startIndex=0, this traverse all conditions
             // case: elements[i] is first, swap first
@@ -336,7 +336,7 @@ public class Collections {
         return j == pattern.length();
     }
 
-    public static <E> List<Integer> kahn(Graph<E, E> g) throws CloneNotSupportedException {
+    public static <E> List<Integer> topologicalSort(Graph<E, E> g) throws CloneNotSupportedException {
         Graph<E, E> graph = g.clone();
         List<Integer> ret = new ArrayList<>();
         Queue<Integer> queue = new LinkedList<>(); // 入度=0的顶点
