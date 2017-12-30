@@ -180,17 +180,17 @@ public class Collections {
                     ret.get(i).add(null);
                 }
             }
-        }
-        for (int k = 0; k < graph.size(); k++) {
-            for (int i = 0; i < graph.size(); i++) {
-                for (int j = 0; j < graph.size(); j++) {
+        } // add all edges (now with only direct path)
+        for (int k = 0; k < graph.size(); k++) { // k as bridge vertex
+            for (int i = 0; i < graph.size(); i++) { // from vertex(i)
+                for (int j = 0; j < graph.size(); j++) { // to vertex(j)
                     Integer originEdge = ret.get(i).get(j);
                     Integer newEdgePart1 = ret.get(i).get(k);
                     Integer newEdgePart2 = ret.get(k).get(j);
-                    if (newEdgePart1 == null || newEdgePart2 == null) {
+                    if (newEdgePart1 == null || newEdgePart2 == null) { // k can't be bridge
                         continue;
                     }
-                    if (originEdge == null) {
+                    if (originEdge == null) { // origin dist = inf, use bridge
                         ret.get(i).set(j, newEdgePart1 + newEdgePart2);
                     } else {
                         ret.get(i).set(j, Math.min(originEdge, newEdgePart1 + newEdgePart2));
@@ -274,30 +274,25 @@ public class Collections {
         group.add(0);
         List<Graph.Edge<E>> selectedEdges = new ArrayList<>(graph.size());
         List<Graph.Edge<E>> allEdges = graph.getFlattenedEdges();
-        while (group.size() < graph.size()) {
+        while (group.size() < graph.size()) { // group is not full
             Integer minDistance = null;
             Graph.Edge<E> temp = null;
-            Integer indexOfEdgeToBeRemoved = null;
-            for (int i = 0; i < allEdges.size(); i++) {
-                Graph.Edge<E> edge = allEdges.get(i);
+            for (int i = 0; i < allEdges.size(); i++) { // traverse all edges
+                Graph.Edge<E> edge = allEdges.get(i); // get the shortest
                 Integer from = edge.getFrom();
                 Integer to = edge.getTo();
                 if (group.contains(from) && !group.contains(to)) {
+                    // edge is not visited and linked with current group
                     if (minDistance == null || edge.getWeight() < minDistance) {
                         minDistance = edge.getWeight();
                         temp = edge;
-                        indexOfEdgeToBeRemoved = i;
                     }
                 }
             }
-            if (indexOfEdgeToBeRemoved != null) {
-                allEdges.remove(indexOfEdgeToBeRemoved.intValue());
-            }
-            if (temp != null) {
-                selectedEdges.add(temp);
-                group.add(temp.getFrom());
-                group.add(temp.getTo());
-            }
+            assert temp != null; // temp is the shortest edge
+            selectedEdges.add(temp);
+            group.add(temp.getFrom());
+            group.add(temp.getTo());
         }
         return selectedEdges;
     }
