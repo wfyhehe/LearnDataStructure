@@ -286,6 +286,53 @@ public class test {
     }
 
     @Test
+    public void testDijkstra2() {
+        Graph<Integer, Integer> g = new Graph<>(14);
+        for (int i = 0; i < g.getVertexes().size(); i++) {
+            g.getVertexes().set(i, new Graph.Vertex<>(i));
+        }
+        g.addOrUpdateDualEdge(0, 1, 2);
+        g.addOrUpdateDualEdge(0, 2, 1);
+        g.addOrUpdateDualEdge(0, 3, 4);
+        g.addOrUpdateDualEdge(0, 4, 2);
+        g.addOrUpdateDualEdge(1, 2, 1);
+        g.addOrUpdateDualEdge(1, 5, 4);
+        g.addOrUpdateDualEdge(1, 6, 2);
+        g.addOrUpdateDualEdge(2, 3, 2);
+        g.addOrUpdateDualEdge(3, 4, 2);
+        g.addOrUpdateDualEdge(3, 6, 3);
+        g.addOrUpdateDualEdge(3, 7, 4);
+        g.addOrUpdateDualEdge(4, 8, 3);
+        g.addOrUpdateDualEdge(5, 6, 2);
+        g.addOrUpdateDualEdge(5, 9, 3);
+        g.addOrUpdateDualEdge(5, 10, 4);
+        g.addOrUpdateDualEdge(6, 7, 1);
+        g.addOrUpdateDualEdge(6, 10, 5);
+        g.addOrUpdateDualEdge(7, 8, 1);
+        g.addOrUpdateDualEdge(7, 11, 3);
+        g.addOrUpdateDualEdge(8, 11, 3);
+        g.addOrUpdateDualEdge(8, 12, 4);
+        g.addOrUpdateDualEdge(9, 10, 2);
+        g.addOrUpdateDualEdge(9, 13, 2);
+        g.addOrUpdateDualEdge(10, 11, 2);
+        g.addOrUpdateDualEdge(10, 13, 1);
+        g.addOrUpdateDualEdge(11, 12, 1);
+        g.addOrUpdateDualEdge(11, 13, 3);
+        g.addOrUpdateDualEdge(12, 13, 1);
+        List<Integer> path = Collections.dijkstra(g, 0);
+        for (int i = 0; i < path.size(); i++) {
+            if (path.get(i) != null) {
+                System.out.print(path.get(i));
+            } else {
+                System.out.print("∞");
+            }
+            System.out.println();
+        }
+        Integer[] assertArray = new Integer[]{0, 2, 1, 3, 2, 6, 4, 5, 5, 9, 9, 8, 9, 10};
+        assert path.equals(new ArrayList<>(Arrays.asList(assertArray)));
+    }
+
+    @Test
     public void testKruskal() {
         Graph<Integer, Integer> g = new Graph<>(6);
         for (int i = 0; i < g.getVertexes().size(); i++) {
@@ -564,8 +611,13 @@ public class test {
         Integer[] integers = new Integer[]{
                 98, 79, 15, 65, 186, 14, 22, 61, 48
         };
+        Integer[] expectedArray = new Integer[]{
+                14, 15, 22, 48, 61, 65, 79, 98, 186
+        };
         Collections.insertSort(integers);
-        System.out.println(new ArrayList<>(Arrays.asList(integers)));
+        List<Integer> list = new ArrayList<>(Arrays.asList(integers));
+        System.out.println(list);
+        assert list.equals(Arrays.asList(expectedArray));
     }
 
     @Test
@@ -573,8 +625,13 @@ public class test {
         Integer[] integers = new Integer[]{
                 98, 79, 15, 65, 186, 14, 22, 61, 48
         };
+        Integer[] expectedArray = new Integer[]{
+                14, 15, 22, 48, 61, 65, 79, 98, 186
+        };
         Collections.shellSort(integers);
-        System.out.println(new ArrayList<>(Arrays.asList(integers)));
+        List<Integer> list = new ArrayList<>(Arrays.asList(integers));
+        System.out.println(list);
+        assert list.equals(Arrays.asList(expectedArray));
     }
 
     @Test
@@ -582,8 +639,12 @@ public class test {
         Integer[] integers = new Integer[]{
                 98, 79, 15, 65, 186, 14, 22, 61, 48
         };
-        List<Integer> list =  new ArrayList<>(Arrays.asList(integers));
+        Integer[] expectedArray = new Integer[]{
+                14, 15, 22, 48, 61, 65, 79, 98, 186
+        };
+        List<Integer> list = new ArrayList<>(Arrays.asList(integers));
         Collections.heapSort(list);
         System.out.println(list);
+        assert list.equals(Arrays.asList(expectedArray));
     }
 }
