@@ -10,6 +10,8 @@ import java.util.*;
  * Created by Administrator on 2017/12/15, good luck.
  */
 public class Collections {
+    public static final int SELECT_THRESHOLD = 44;
+
     public static void radixSort(List<Integer> list, int length) {
         ArrayList<Integer>[] buckets = new ArrayList[10];
         for (int i = 0; i < length; i++) {
@@ -152,19 +154,46 @@ public class Collections {
     }
 
     public static <E extends Comparable<? super E>> E findKthSmallest(List<E> elements, int k) {
-        return findKthSmallest(elements, 0, elements.size(), k);
+        return findKthSmallest(elements, k, true);
+    }
+
+    public static <E extends Comparable<? super E>> E findKthSmallest(
+            List<E> elements, int k, boolean usePartition) {
+        return findKthSmallest(elements, 0, elements.size(), k, usePartition);
     }
 
     private static <E extends Comparable<? super E>> E findKthSmallest(
-            List<E> elements, int lo, int hi, int k) {
-        int pivotIndex = partition(elements, lo, hi);
+            List<E> elements, int lo, int hi, int k, boolean usePartition) {
+        int pivotIndex;
+        if (usePartition) {
+            pivotIndex = partition(elements, lo, hi);
+        } else {
+            int length = hi - lo;
+            if (length < SELECT_THRESHOLD) {
+                List<E> subList = elements.subList(lo, hi);
+                java.util.Collections.sort(subList);
+                return subList.get(k - 1 - lo);
+            }
+            int groupCount = length / 5; // divide into groups, with 5 elements each
+            List<E> midList = new ArrayList<>();
+            for (int i = 0; i < groupCount; i++) {
+                // add size=5 groups
+                List<E> tempGroup = elements.subList(lo + i * 5, lo + i * 5 + 5);
+                java.util.Collections.sort(tempGroup); // sort every group
+                midList.add(tempGroup.get(2)); // index=2 means the mid of size=5 tempGroup
+            }
+            E midOfMid = findKthSmallest(midList, 0, groupCount, groupCount / 2, false);
+            int indexOfMom = elements.subList(lo, hi).indexOf(midOfMid);
+            java.util.Collections.swap(elements, lo, indexOfMom);
+            pivotIndex = partition(elements, lo, hi);
+        }
         // elements[pivotIndex] is pivotIndex+1_th smallest element
         if (pivotIndex + 1 == k) {
             return elements.get(pivotIndex);
         } else if (pivotIndex + 1 < k) { // kth smallest element is after pivot
-            return findKthSmallest(elements, pivotIndex + 1, hi, k);
+            return findKthSmallest(elements, pivotIndex + 1, hi, k, usePartition);
         } else { // kth smallest element is before pivot
-            return findKthSmallest(elements, lo, pivotIndex, k);
+            return findKthSmallest(elements, lo, pivotIndex, k, usePartition);
         }
     }
 

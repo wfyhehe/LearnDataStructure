@@ -109,10 +109,32 @@ public class test {
 
     @Test
     public void testFindKthSmallest() {
-        Integer[] elements = {9, 7, 8, 1, 6, 4, 2, 3, 5, 0};
-        List<Integer> list = Arrays.asList(elements);
-        Integer target = Collections.findKthSmallest(list, 2);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10000002; i++) {
+            list.add(i);
+        }
+        java.util.Collections.shuffle(list);
+        long startTime = System.currentTimeMillis();
+        Integer target = Collections.findKthSmallest(list, 4000000);
+        long endTime = System.currentTimeMillis();
+        assert target == 3999999;
         System.out.println(target);
+        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+    }
+
+    @Test
+    public void testFindKthSmallestUseSelect() {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10000002; i++) {
+            list.add(i);
+        }
+        java.util.Collections.shuffle(list);
+        long startTime = System.currentTimeMillis();
+        Integer target = Collections.findKthSmallest(list, 400000, false);
+        long endTime = System.currentTimeMillis();
+        assert target == 399999;
+        System.out.println(target);
+        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
     }
 
     @Test
