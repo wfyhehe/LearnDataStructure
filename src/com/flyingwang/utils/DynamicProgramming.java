@@ -30,25 +30,15 @@ public class DynamicProgramming {
         StringBuilder ret = new StringBuilder();
         int i = str1.length() - 1;
         int j = str2.length() - 1;
-        while (i >= 0 && j >= 0) {
-            if (str1.charAt(i) == str2.charAt(j)) {
+        while (i > 0 && j > 0) {
+            if (countTable[i - 1][j] == countTable[i][j]) {
+                i--;
+            } else if (countTable[i][j - 1] == countTable[i][j]) {
+                j--;
+            } else {
                 ret.insert(0, str1.charAt(i));
                 i--;
                 j--;
-            } else {
-                if (i == 0) {
-                    j--;
-                    continue;
-                }
-                if (j == 0) {
-                    i--;
-                    continue;
-                }
-                if (countTable[i - 1][j] >= countTable[i][j - 1]) {
-                    i--;
-                } else {
-                    j--;
-                }
             }
         }
         return ret;
