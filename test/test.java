@@ -10,6 +10,19 @@ import java.util.*;
  */
 public class test {
     @Test
+    public void testForNothing() {
+        Integer[] array = new Integer[]{
+                8, 33, 17, 51, 57, 49, 35, 11, 25, 37, 14, 2, 3, 13, 52, 12, 6, 29, 32, 54, 5,
+                16, 22, 23, 7
+        };
+        List<Integer> list = new ArrayList<>(Arrays.asList(array));
+        java.util.Collections.sort(list);
+        System.out.println(list);
+        System.out.println(list.get(12));
+        assert list.get(12) == 23;
+    }
+
+    @Test
     public void testCompleteHeap() {
         //        List<Integer> randomArray = new ArrayList<>();
         //        Random random = new Random();
@@ -143,6 +156,15 @@ public class test {
         String str2 = "zxzyyzxxyxxz";
         CharSequence commonStr = DynamicProgramming.longestCommonSubSequence(str1, str2);
         System.out.println(commonStr);
+        assert commonStr.length() == 6;
+    }
+
+
+    @Test
+    public void testEditDistance() {
+        String str1 = "kitten";
+        String str2 = "sitting";
+        assert DynamicProgramming.editDistance(str1, str2) == 3;
     }
 
     @Test
@@ -233,6 +255,18 @@ public class test {
         g.addOrUpdateEdge(2, 3, 1);
         g.addOrUpdateEdge(3, 0, 5);
         g.addOrUpdateEdge(3, 2, 12);
+//        g.addOrUpdateEdge(0 , 1, 1);
+//        g.addOrUpdateEdge(0 , 1, 1);
+//        g.addOrUpdateEdge(0 , 2, 2);
+//        g.addOrUpdateEdge(0 , 3, 3);
+//        g.addOrUpdateEdge(1 , 0, 1);
+//        g.addOrUpdateEdge(1 , 2, 4);
+//        g.addOrUpdateEdge(1 , 3, 11);
+//        g.addOrUpdateEdge(2 , 0, 2);
+//        g.addOrUpdateEdge(2 , 1, 6);
+//        g.addOrUpdateEdge(2 , 3, 2);
+//        g.addOrUpdateEdge(3 , 0, 3);
+//        g.addOrUpdateEdge(3 , 1, 3);
         List<List<Integer>> path = Collections.floyd(g);
         for (int i = 0; i < path.size(); i++) {
             for (int j = 0; j < path.get(0).size(); j++) {
@@ -668,5 +702,34 @@ public class test {
         Collections.heapSort(list);
         System.out.println(list);
         assert list.equals(Arrays.asList(expectedArray));
+    }
+
+    @Test
+    public void testHamiltonianPath() {
+        int[][] graph = new int[][]{
+              // 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+                {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, // 1
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, // 2
+                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}, // 3
+                {0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0}, // 4
+                {1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // 5
+                {0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}, // 6
+                {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, // 7
+                {0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, // 8
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}, // 9
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0}, // 10
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0}, // 11
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}, // 12
+                {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0}, // 13
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0}, // 14
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0}, // 15
+                {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0}, // 16
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0}, // 17
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0}, // 18
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1}, // 19
+                {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}, // 20
+        };
+        HamiltonianPath hp = new HamiltonianPath(graph);
+        hp.run();
     }
 }
