@@ -7,13 +7,13 @@ import java.util.*;
  */
 public class DynamicProgramming {
     public static CharSequence longestCommonSubSequence(CharSequence str1, CharSequence str2) {
-        int[][] countTable = new int[str1.length()][str2.length()];
-        for (int i = 0; i < str1.length(); i++) {
-            for (int j = 0; j < str2.length(); j++) {
+        int[][] countTable = new int[str1.length() + 1][str2.length() + 1];
+        for (int i = 0; i <= str1.length(); i++) {
+            for (int j = 0; j <= str2.length(); j++) {
                 if (i == 0 || j == 0) {
                     continue;
                 }
-                if (str1.charAt(i) == str2.charAt(j)) {
+                if (str1.charAt(i-1) == str2.charAt(j-1)) {
                     countTable[i][j] = countTable[i - 1][j - 1] + 1;
                 } else {
                     countTable[i][j] = Math.max(countTable[i - 1][j], countTable[i][j - 1]);
@@ -28,15 +28,15 @@ public class DynamicProgramming {
             System.out.println();
         }
         StringBuilder ret = new StringBuilder();
-        int i = str1.length() - 1;
-        int j = str2.length() - 1;
+        int i = str1.length();
+        int j = str2.length();
         while (i > 0 && j > 0) {
             if (countTable[i - 1][j] == countTable[i][j]) {
                 i--;
             } else if (countTable[i][j - 1] == countTable[i][j]) {
                 j--;
             } else {
-                ret.insert(0, str1.charAt(i));
+                ret.insert(0, str1.charAt(i-1));
                 i--;
                 j--;
             }
