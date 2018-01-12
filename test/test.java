@@ -707,7 +707,7 @@ public class test {
     @Test
     public void testHamiltonianPath() {
         int[][] graph = new int[][]{
-              // 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+                // 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
                 {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, // 1
                 {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, // 2
                 {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0}, // 3
@@ -731,5 +731,13 @@ public class test {
         };
         HamiltonianPath hp = new HamiltonianPath(graph);
         hp.run();
+    }
+
+    @Test
+    public void testMaxIntervalSum() {
+        Integer[] numbers1 = new Integer[]{-1, 4, -2, 3, -2, 3};
+        Integer[] numbers2 = new Integer[]{-1, -2, -2};
+        assert DynamicProgramming.maxIntervalSum(new ArrayList<>(Arrays.asList(numbers1))) == 6;
+        assert DynamicProgramming.maxIntervalSum(new ArrayList<>(Arrays.asList(numbers2))) == -1;
     }
 }

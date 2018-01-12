@@ -52,7 +52,7 @@ public class DynamicProgramming {
                     countTable[i][j] = j;
                 } else if (j == 0) {
                     countTable[i][j] = i;
-                }else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                } else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
                     countTable[i][j] = countTable[i - 1][j - 1];
                 } else {
                     countTable[i][j] = Math.min(Math.min(
@@ -65,7 +65,7 @@ public class DynamicProgramming {
         }
         for (int[] row : countTable) {
             for (int j = 0; j < countTable[0].length; j++) {
-                System.out.printf("%d ",row[j]);
+                System.out.printf("%d ", row[j]);
             }
             System.out.println();
         }
@@ -188,5 +188,22 @@ public class DynamicProgramming {
             System.out.println(selectedItem);
         }
         return valueList;
+    }
+
+    public static int maxIntervalSum(List<Integer> numbers) {
+        int currentSum = 0;
+        int historyMaxSum = 0;
+        boolean hasPositive = false;
+        int maxNumber = numbers.get(0);
+        for (Integer number : numbers) {
+            hasPositive = number > 0 || hasPositive;
+            maxNumber = Math.max(maxNumber, number);
+            currentSum = Math.max(currentSum + number, 0);
+            historyMaxSum = Math.max(currentSum, historyMaxSum);
+        }
+        if (!hasPositive) {
+            return maxNumber;
+        }
+        return historyMaxSum;
     }
 }
