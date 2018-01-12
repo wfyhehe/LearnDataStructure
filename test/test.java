@@ -750,6 +750,14 @@ public class test {
     }
 
     @Test
+    public void testMaxIntervalSumWithDivide() {
+        Integer[] numbers1 = new Integer[]{-1, 4, -2, 3, -2, 3};
+        Integer[] numbers2 = new Integer[]{-1, -2, -2};
+        assert DynamicProgramming.maxIntervalSumWithDivide(new ArrayList<>(Arrays.asList(numbers1))) == 6;
+        assert DynamicProgramming.maxIntervalSumWithDivide(new ArrayList<>(Arrays.asList(numbers2))) == -1;
+    }
+
+    @Test
     public void testSubListOfMaxIntervalSum() {
         Integer[] numbers1 = new Integer[]{-1, 4, -2, 3, -2, 3};
         Integer[] numbers2 = new Integer[]{-1, -2, -2};

@@ -235,6 +235,39 @@ public class DynamicProgramming {
         return max;
     }
 
+    public static int maxIntervalSumWithDivide(List<Integer> numbers) {
+        return maxIntervalSumWithDivide(numbers, 0, numbers.size());
+    }
+
+    private static int maxIntervalSumWithDivide(List<Integer> numbers, int lo, int hi) {
+        if (hi - lo <= 1) {
+            return numbers.get(lo);
+        }
+        int mid = (lo + hi) / 2;
+        int leftSubMax = maxIntervalSumWithDivide(numbers, lo, mid);
+        int rightSubMax = maxIntervalSumWithDivide(numbers, mid, hi);
+        int midSubMax = 0;
+        int currentSum = 0;
+        int historyMaxSum = numbers.get(mid - 1);
+        for (int i = mid - 1; i >= lo; i--) {
+            currentSum += numbers.get(i);
+            historyMaxSum = Math.max(historyMaxSum, currentSum);
+        }
+        midSubMax += historyMaxSum;
+        currentSum = 0;
+        historyMaxSum = numbers.get(mid);
+        for (int i = mid; i < hi; i++) {
+            currentSum += numbers.get(i);
+            historyMaxSum = Math.max(historyMaxSum, currentSum);
+        }
+        midSubMax += historyMaxSum;
+        return Math.max(Math.max(
+                leftSubMax,
+                rightSubMax),
+                midSubMax
+        );
+    }
+
     public static List<Integer> subListOfMaxIntervalSum(List<Integer> numbers) {
         int currentSum = 0;
         int historyMaxSum = 0;
