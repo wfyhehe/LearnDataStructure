@@ -225,6 +225,7 @@ public class DynamicProgramming {
             // 否则，当前子段和抛弃之前的子问题结果(加上一个负数肯定不如不要(+0))
             subMaxSum.add(lastSum >= 0 ? lastSum + number : number);
         }
+        // 最后遍历所有终点，找出以某个点终点时子段和最大的值
         int max = subMaxSum.get(0);
         for (int number : subMaxSum) {
             if (number > max) {

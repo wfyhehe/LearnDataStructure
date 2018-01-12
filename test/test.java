@@ -760,4 +760,16 @@ public class test {
         assert DynamicProgramming.subListOfMaxIntervalSum(
                 new ArrayList<>(Arrays.asList(numbers2))).equals(subList2);
     }
+
+    @Test
+    public void testPackBackTrack() {
+        List<ItemInPack> items = new ArrayList<>();
+        items.add(new ItemInPack("a", 2, 6));
+        items.add(new ItemInPack("b", 2, 3));
+        items.add(new ItemInPack("c", 6, 5));
+        items.add(new ItemInPack("d", 5, 4));
+        items.add(new ItemInPack("e", 4, 6));
+        PackBackTrack pbt = new PackBackTrack(items, 10);
+        pbt.run();
+    }
 }
