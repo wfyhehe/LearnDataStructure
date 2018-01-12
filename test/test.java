@@ -740,4 +740,16 @@ public class test {
         assert DynamicProgramming.maxIntervalSum(new ArrayList<>(Arrays.asList(numbers1))) == 6;
         assert DynamicProgramming.maxIntervalSum(new ArrayList<>(Arrays.asList(numbers2))) == -1;
     }
+
+    @Test
+    public void testSubListOfMaxIntervalSum() {
+        Integer[] numbers1 = new Integer[]{-1, 4, -2, 3, -2, 3};
+        Integer[] numbers2 = new Integer[]{-1, -2, -2};
+        List<Integer> subList1 = new ArrayList<>(Arrays.asList(4, -2, 3, -2, 3));
+        List<Integer> subList2 = new ArrayList<>(java.util.Collections.singletonList(-1));
+        assert DynamicProgramming.subListOfMaxIntervalSum(
+                new ArrayList<>(Arrays.asList(numbers1))).equals(subList1);
+        assert DynamicProgramming.subListOfMaxIntervalSum(
+                new ArrayList<>(Arrays.asList(numbers2))).equals(subList2);
+    }
 }

@@ -206,4 +206,36 @@ public class DynamicProgramming {
         }
         return historyMaxSum;
     }
+
+    public static List<Integer> subListOfMaxIntervalSum(List<Integer> numbers) {
+        int currentSum = 0;
+        int historyMaxSum = 0;
+        int lo = 0;
+        int hi = 0;
+        boolean hasPositive = false;
+        int maxNumberIndex = 0; // 若所有数字均小于0，最大子段和即为最大的数
+        for (int i = 0; i < numbers.size(); i++) {
+            int number = numbers.get(i);
+            hasPositive = number > 0 || hasPositive;
+            if (number > numbers.get(maxNumberIndex)) {
+                maxNumberIndex = i;
+            }
+            // 若当前数字加入求和后结果为负，说明最大子段和必然舍弃这部分，currentSum归零
+            if (currentSum + number > 0) {
+                currentSum = currentSum + number;
+            } else {
+                currentSum = 0;
+                lo = i + 1;
+            }
+            // 保存历史最大子段和
+            if (currentSum > historyMaxSum) {
+                historyMaxSum = currentSum;
+                hi = i + 1;
+            }
+        }
+        if (!hasPositive) {
+            return numbers.subList(maxNumberIndex, maxNumberIndex + 1);
+        }
+        return numbers.subList(lo, hi);
+    }
 }
