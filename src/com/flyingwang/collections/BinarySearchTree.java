@@ -3,7 +3,7 @@ package com.flyingwang.collections;
 import java.util.Iterator;
 
 /**
- * Created by wfy on 17-12-23, good luck.
+ * Created by wfy on 17-12-24, good luck.
  */
 public class BinarySearchTree<E extends Comparable<? super E>> extends BinaryTree<E> {
     private TreeNode<E> hot;
