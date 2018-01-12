@@ -194,11 +194,13 @@ public class DynamicProgramming {
         int currentSum = 0;
         int historyMaxSum = 0;
         boolean hasPositive = false;
-        int maxNumber = numbers.get(0);
+        int maxNumber = numbers.get(0); // 若所有数字均小于0，最大子段和即为最大的数
         for (Integer number : numbers) {
             hasPositive = number > 0 || hasPositive;
             maxNumber = Math.max(maxNumber, number);
+            // 若当前数字加入求和后结果为负，说明最大子段和必然舍弃这部分，currentSum归零
             currentSum = Math.max(currentSum + number, 0);
+            // 保存历史最大子段和
             historyMaxSum = Math.max(currentSum, historyMaxSum);
         }
         if (!hasPositive) {
@@ -206,6 +208,33 @@ public class DynamicProgramming {
         }
         return historyMaxSum;
     }
+
+    public static int maxIntervalSum2(List<Integer> numbers) {
+        // DP递推式：subMaxSum[i] = { subMaxSum[i-1] + numbers[i] (if subMaxSum[i-1]>=0)
+        //                         { numbers[i]                  (if subMaxSum[i-1]<0)
+        List<Integer> subMaxSum = new ArrayList<>(); // 将子问题(以index为终点的最大子段和)结果用List保存
+        for (Integer number : numbers) {
+            if (subMaxSum.isEmpty()) {
+                subMaxSum.add(number);
+                continue;
+            }
+            // lastSum为:以当前index的前一项为终点的最大子段和
+            // e.g.     [1,-5,3,6,-2,8,...] 当前在8处，lastSum=3+6+-2=7
+            // subMaxSum[1,-4,3,9, 7,.....]
+            int lastSum = subMaxSum.get(subMaxSum.size() - 1);
+            // lastSum为正，则当前子段和必然包含他之前的最大子段和
+            // 否则，当前子段和抛弃之前的子问题结果(加上一个负数肯定不如不要(+0))
+            subMaxSum.add(lastSum >= 0 ? lastSum + number : number);
+        }
+        int max = subMaxSum.get(0);
+        for (int number : subMaxSum) {
+            if (number > max) {
+                max = number;
+            }
+        }
+        return max;
+    }
+
 
     public static List<Integer> subListOfMaxIntervalSum(List<Integer> numbers) {
         int currentSum = 0;
