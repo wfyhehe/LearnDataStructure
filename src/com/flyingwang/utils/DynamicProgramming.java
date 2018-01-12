@@ -210,8 +210,7 @@ public class DynamicProgramming {
     }
 
     public static int maxIntervalSum2(List<Integer> numbers) {
-        // DP递推式：subMaxSum[i] = { subMaxSum[i-1] + numbers[i] (if subMaxSum[i-1]>=0)
-        //                         { numbers[i]                  (if subMaxSum[i-1]<0)
+        // DP递推式：subMaxSum[i] = max(subMaxSum[i-1] + numbers[i], numbers[i])
         List<Integer> subMaxSum = new ArrayList<>(); // 将子问题(以index为终点的最大子段和)结果用List保存
         for (Integer number : numbers) {
             if (subMaxSum.isEmpty()) {
@@ -234,7 +233,6 @@ public class DynamicProgramming {
         }
         return max;
     }
-
 
     public static List<Integer> subListOfMaxIntervalSum(List<Integer> numbers) {
         int currentSum = 0;
