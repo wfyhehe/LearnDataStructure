@@ -550,6 +550,19 @@ public class test {
     }
 
     @Test
+    public void testHuffmanTree2() {
+        Stack<HuffmanTree.HuffmanNode<String>> nodes = new Stack<>();
+        nodes.push(new HuffmanTree.HuffmanNode<>("a", 11));
+        nodes.push(new HuffmanTree.HuffmanNode<>("b", 12));
+        nodes.push(new HuffmanTree.HuffmanNode<>("c", 13));
+        nodes.push(new HuffmanTree.HuffmanNode<>("d", 14));
+        nodes.push(new HuffmanTree.HuffmanNode<>("e", 15));
+        nodes.push(new HuffmanTree.HuffmanNode<>("f", 16));
+        HuffmanTree<String> tree = new HuffmanTree<>(nodes);
+        tree.display();
+    }
+
+    @Test
     public void testColor() {
         Graph<Integer, Integer> g = new Graph<>(5);
         for (int i = 0; i < g.getVertexes().size(); i++) {

@@ -28,9 +28,9 @@ public class HuffmanTree<E> extends BinaryTree<E> {
         queue.offer((HuffmanNode<E>) this.getRoot());
         while (!queue.isEmpty()) {
             HuffmanNode<E> node = queue.poll();
-            if(node.getData()!=null) {
-                System.out.println(node);
-            }
+//            if(node.getData()!=null) {
+            System.out.println(node);
+//            }
             List<Integer> leftCodeSequence = new ArrayList<>(node.codeSequence);
             leftCodeSequence.add(0);
             List<Integer> rightCodeSequence = new ArrayList<>(node.codeSequence);
